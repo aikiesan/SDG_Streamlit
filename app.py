@@ -78,7 +78,7 @@ st.markdown("""
         --input-border: #cccccc;
 
         /* Branded Dark Elements (UIA Header, Results Summary) */
-        --brand-dark-bg: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%);
+        --brand-dark-bg: linear-gradient(135deg, #0F172A 0%, #1E293B 25%, #334155 50%, #475569 75%, #64748B 100%);
         --brand-dark-text: #ffffff;
 
         --radius: 12px;
@@ -181,7 +181,7 @@ st.markdown("""
         height: auto !important;
         min-height: auto !important;
         margin-bottom: 2rem !important;
-        padding: 2rem 1.5rem !important;
+        padding: 0 !important;
         border-radius: var(--radius-lg) !important;
         text-align: center !important;
         background: var(--brand-dark-bg) !important;
@@ -189,6 +189,26 @@ st.markdown("""
         border: none !important;
         opacity: 1 !important;
         pointer-events: auto !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1) !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    .uia-header::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: linear-gradient(45deg, rgba(227, 57, 70, 0.1) 0%, rgba(29, 53, 87, 0.1) 100%) !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+    }
+
+    .uia-header > div {
+        position: relative !important;
+        z-index: 2 !important;
     }
 
     /* Ensure headers inside uia-header are visible */
@@ -951,7 +971,16 @@ def create_performance_distribution_chart(performance_distribution: dict):
 
 # --- UI Rendering Functions ---
 def render_header():
-    st.markdown("""<div class="uia-header"><h1>🏗️ UIA SDG Assessment Toolkit</h1><p style="font-size: 1.2rem; margin: 0; opacity: 0.95; color: #1D3557;">UIA SDG Assessment Toolkit 🌿</p></div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="uia-header">
+        <div style="text-align: center; padding: 2.5rem 1.5rem;">
+            <div style="margin-bottom: 1rem;">
+                <span style="font-size: 2.5rem; margin-right: 0.5rem;">🏗️</span>
+                <h1 style="font-size: 2.8rem; font-weight: 900; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: -0.02em;">UIA SDG Assessment Toolkit</h1>
+            </div>
+            <p style="font-size: 1.4rem; margin: 0; font-weight: 500; color: #E8F4FD; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); letter-spacing: 0.02em;">UIA SDG Assessment Toolkit 🌿</p>
+            <div style="margin-top: 1.5rem; height: 3px; background: linear-gradient(90deg, #E63946 0%, #F1FAEE 50%, #1D3557 100%); border-radius: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>
+        </div>
+    </div>""", unsafe_allow_html=True)
 
 def render_intro():
     st.markdown("""<div class="intro-container"><h2>Welcome to the UIA SDG Assessment Toolkit</h2><p>This tool evaluates your project's alignment with the UN Sustainable Development Goals, using a scoring system designed for architecture that recognizes synergies between goals.</p><p>Complete the questionnaire to receive a detailed sustainability report, including actionable, phase-specific recommendations.</p></div>""", unsafe_allow_html=True)
