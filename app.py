@@ -766,18 +766,17 @@ st.markdown(f"""
         }}
     }}
 
-    /* Mobile Next Button Container - ENHANCED VISIBILITY */
+    /* Mobile Next Button Container - ENSURE THESE RULES ARE EFFECTIVE */
     .mobile-next-button-container {{
         position: relative;
         z-index: 50;
         margin: 2rem 0;
         padding: 0.5rem 0;
     }}
-    
-    /* Specific targeting for mobile next/submit buttons */
+
+    /* Specific targeting for buttons INSIDE mobile-next-button-container */
     .mobile-next-button-container .stButton > button {{
         background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
-        color: white !important;
         font-weight: 700 !important;
         font-size: 1.1rem !important;
         padding: 1rem 1.5rem !important;
@@ -790,27 +789,27 @@ st.markdown(f"""
         align-items: center !important;
         justify-content: center !important;
         transition: all 0.3s ease !important;
-        position: relative !important;
-        z-index: 10 !important;
     }}
-    
+
     .mobile-next-button-container .stButton > button:hover {{
         transform: translateY(-2px) !important;
         box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
         background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%) !important;
     }}
-    
-    .mobile-next-button-container .stButton > button * {{
+
+    /* CRITICAL FOR TEXT: Force all text elements INSIDE these buttons to be white */
+    .mobile-next-button-container .stButton > button *,
+    .mobile-next-button-container .stButton > button span,
+    .mobile-next-button-container .stButton > button div p {{
         color: white !important;
         font-weight: inherit !important;
         text-shadow: inherit !important;
     }}
-    
-    /* Mobile-specific enhancements for next button container */
+
+    /* Mobile-specific enhancements for buttons in mobile-next-button-container */
     @media (max-width: 768px) {{
         .mobile-next-button-container {{
             margin: 2.5rem 0 !important;
-            padding: 1rem 0 !important;
         }}
         
         .mobile-next-button-container .stButton > button {{
@@ -818,18 +817,10 @@ st.markdown(f"""
             padding: 1.25rem 1.5rem !important;
             min-height: 64px !important;
             box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
-            border: 2px solid rgba(255, 255, 255, 0.2) !important;
-            z-index: 100 !important;
-        }}
-        
-        /* Ensure the button is always visible above other content */
-        .mobile-next-button-container .stButton {{
-            position: relative !important;
-            z-index: 100 !important;
         }}
     }}
-    
-    /* Extra small mobile devices */
+
+    /* Extra small mobile devices for buttons in mobile-next-button-container */
     @media (max-width: 480px) {{
         .mobile-next-button-container .stButton > button {{
             font-size: 1.1rem !important;
@@ -837,24 +828,62 @@ st.markdown(f"""
             min-height: 60px !important;
         }}
     }}
-    
-    /* Force visibility for any button with Next Section or View Results text */
+
+    /* Fallback :has() selectors for Next/Submit buttons NOT in .mobile-next-button-container */
     .stButton > button:has(span:contains("Next Section")),
-    .stButton > button:has(span:contains("View Results")) {{
+    .stButton > button:has(span:contains("View Results")),
+    .stButton > button:has(span:contains("Calculate Final Results")) {{
         background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
-        color: white !important;
         font-weight: 700 !important;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
         border: none !important;
         box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
-        z-index: 50 !important;
     }}
-    
+
     .stButton > button:has(span:contains("Next Section")) *,
-    .stButton > button:has(span:contains("View Results")) * {{
+    .stButton > button:has(span:contains("View Results")) *,
+    .stButton > button:has(span:contains("Calculate Final Results")) * {{
         color: white !important;
         font-weight: inherit !important;
         text-shadow: inherit !important;
+    }}
+
+    /* Mobile Navigation Buttons (Prev, Home in bottom bar) */
+    .mobile-nav .stButton > button {{
+        background: rgba(255,255,255,0.95) !important;
+        color: var(--text-primary) !important;
+        font-weight: 700 !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+        border: 2px solid rgba(255,255,255,0.3) !important;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.15) !important;
+    }}
+
+    .mobile-nav .stButton > button span,
+    .mobile-nav .stButton > button div {{
+        color: var(--text-primary) !important;
+        font-weight: inherit !important;
+        text-shadow: inherit !important;
+    }}
+
+    /* Ensure mobile nav buttons maintain style on hover */
+    .mobile-nav .stButton > button:hover {{
+        background: rgba(255,255,255,1) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+        border-color: rgba(255,255,255,0.5) !important;
+    }}
+
+    .mobile-nav .stButton > button:hover span,
+    .mobile-nav .stButton > button:hover div {{
+        color: var(--text-primary) !important;
+    }}
+
+    .mobile-nav .stButton > button:disabled,
+    .mobile-nav .stButton > button:disabled span,
+    .mobile-nav .stButton > button:disabled div {{
+        background: rgba(255,255,255,0.4) !important;
+        color: rgba(0,0,0,0.4) !important;
+        border-color: rgba(255,255,255,0.2) !important;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -1268,109 +1297,6 @@ def mobile_next_button():
     """Separate function for the Next/Submit button that appears after questions"""
     is_last_section = st.session_state.current_section_idx == TOTAL_SECTIONS - 1
     
-    # Add custom CSS for the mobile next button with more specific targeting
-    st.markdown("""
-        <style>
-        /* Enhanced mobile next button styling with better specificity */
-        .stButton > button[data-testid*="next_mobile_separate"],
-        .stButton > button[data-testid*="submit_mobile_separate"],
-        .stButton > button:has(span:contains("Next Section")),
-        .stButton > button:has(span:contains("View Results")) {
-            background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
-            color: white !important;
-            font-weight: 700 !important;
-            font-size: 1.1rem !important;
-            padding: 1rem 1.5rem !important;
-            border: none !important;
-            border-radius: var(--radius) !important;
-            box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
-            min-height: 56px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            margin: 1.5rem 0 !important;
-            transition: all 0.3s ease !important;
-            position: relative !important;
-            z-index: 10 !important;
-        }
-        
-        .stButton > button[data-testid*="next_mobile_separate"]:hover,
-        .stButton > button[data-testid*="submit_mobile_separate"]:hover,
-        .stButton > button:has(span:contains("Next Section")):hover,
-        .stButton > button:has(span:contains("View Results")):hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
-            background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%) !important;
-        }
-        
-        /* Force all text elements inside the button to be white */
-        .stButton > button[data-testid*="next_mobile_separate"] *,
-        .stButton > button[data-testid*="submit_mobile_separate"] *,
-        .stButton > button:has(span:contains("Next Section")) *,
-        .stButton > button:has(span:contains("View Results")) * {
-            color: white !important;
-            font-weight: inherit !important;
-            text-shadow: inherit !important;
-        }
-        
-        /* Mobile-specific enhancements */
-        @media (max-width: 768px) {
-            .stButton > button[data-testid*="next_mobile_separate"],
-            .stButton > button[data-testid*="submit_mobile_separate"],
-            .stButton > button:has(span:contains("Next Section")),
-            .stButton > button:has(span:contains("View Results")) {
-                font-size: 1.2rem !important;
-                padding: 1.25rem 1.5rem !important;
-                min-height: 64px !important;
-                margin: 2rem 0 !important;
-                box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
-                border: 2px solid rgba(255, 255, 255, 0.2) !important;
-            }
-            
-            /* Ensure button is above other elements */
-            .stButton > button[data-testid*="next_mobile_separate"],
-            .stButton > button[data-testid*="submit_mobile_separate"],
-            .stButton > button:has(span:contains("Next Section")),
-            .stButton > button:has(span:contains("View Results")) {
-                position: relative !important;
-                z-index: 100 !important;
-            }
-        }
-        
-        /* Extra small mobile devices */
-        @media (max-width: 480px) {
-            .stButton > button[data-testid*="next_mobile_separate"],
-            .stButton > button[data-testid*="submit_mobile_separate"],
-            .stButton > button:has(span:contains("Next Section")),
-            .stButton > button:has(span:contains("View Results")) {
-                font-size: 1.1rem !important;
-                padding: 1rem 1.25rem !important;
-                min-height: 60px !important;
-            }
-        }
-        
-        /* Fallback for browsers that don't support :has() */
-        .mobile-next-button-fallback {
-            background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
-            color: white !important;
-            font-weight: 700 !important;
-            font-size: 1.1rem !important;
-            padding: 1rem 1.5rem !important;
-            border: none !important;
-            border-radius: var(--radius) !important;
-            box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
-            min-height: 56px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            margin: 1.5rem 0 !important;
-            transition: all 0.3s ease !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-    
     if not is_last_section:
         button_text = "Next Section ❯"
         button_key = "next_mobile_separate"
@@ -1416,14 +1342,13 @@ def main():
         if st.session_state.get('just_changed_section', False):
             js_scroll_to_top = """
                 <script>
-                    // Ensure this runs after the DOM is ready for the new page content
-                    // A small timeout can help ensure elements are settled after Streamlit's render
                     setTimeout(function() {
                         window.scrollTo({
                             top: 0,
                             behavior: 'smooth'
                         });
-                    }, 50); // Reduced delay slightly, can be adjusted
+                        console.log('Scrolled to top via JS'); // For debugging
+                    }, 100); // Increased timeout to 100ms (was 50ms)
                 </script>
                 """
             st.components.v1.html(js_scroll_to_top, height=0)
@@ -1438,13 +1363,16 @@ def main():
 
         # Desktop submit button (only on last section)
         if st.session_state.current_section_idx == TOTAL_SECTIONS - 1:
-            if st.button("📊 Calculate Final Results", use_container_width=True, type="primary"):
-                if all_current_questions_answered(): # CHECK ADDED
-                    desktop_submit_warning_placeholder.empty() # Clear previous warning if any
+            # Add a class for specific styling if needed, or rely on :has()
+            st.markdown('<div class="desktop-submit-button-container">', unsafe_allow_html=True)
+            if st.button("📊 Calculate Final Results", key="desktop_submit_final", use_container_width=True, type="primary"):
+                if all_current_questions_answered():
+                    desktop_submit_warning_placeholder.empty()
                     calculate_and_show_results()
                 else:
                     # Use the placeholder to show the warning right above the button
                     desktop_submit_warning_placeholder.warning("⚠️ Please answer all questions on this page before calculating results.")
+            st.markdown('</div>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
