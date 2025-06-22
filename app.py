@@ -312,6 +312,44 @@ st.markdown(f"""
             font-size: 1rem;
             margin-bottom: 1rem;
             line-height: 1.4;
+            color: var(--text-primary) !important;
+        }}
+    }}
+
+    /* Ensure text visibility on mobile */
+    @media (max-width: 768px) {{
+        /* Force text colors for mobile */
+        .stMarkdown, .stText {{
+            color: var(--text-primary) !important;
+        }}
+        
+        /* Ensure question text is visible */
+        p, div, span, label {{
+            color: var(--text-primary) !important;
+        }}
+        
+        /* Override any white text issues */
+        .question-card p,
+        .question-card div,
+        .question-card span {{
+            color: var(--text-primary) !important;
+        }}
+        
+        /* Ensure radio and checkbox labels are visible */
+        .stRadio > div > label,
+        .stCheckbox > div > div > label {{
+            color: var(--text-primary) !important;
+        }}
+        
+        /* Force all text elements to be visible */
+        * {{
+            color: inherit;
+        }}
+        
+        /* Specific override for any white text */
+        .stMarkdown *,
+        .stText * {{
+            color: var(--text-primary) !important;
         }}
     }}
 
@@ -465,6 +503,47 @@ st.markdown(f"""
         .mobile-nav, .stButton {{ display: none !important; }}
         .block-container {{ padding: 0 !important; }}
         .question-card, .results-card {{ break-inside: avoid; }}
+    }}
+
+    /* Additional mobile text visibility fixes */
+    @media (max-width: 768px) {{
+        /* Override any Streamlit default white text */
+        .stMarkdown,
+        .stMarkdown *,
+        .stText,
+        .stText *,
+        .stRadio,
+        .stRadio *,
+        .stCheckbox,
+        .stCheckbox * {{
+            color: var(--text-primary) !important;
+        }}
+        
+        /* Force all text content to be visible */
+        .block-container * {{
+            color: var(--text-primary) !important;
+        }}
+        
+        /* Specific fixes for common Streamlit elements */
+        .stMarkdown p,
+        .stMarkdown div,
+        .stMarkdown span,
+        .stMarkdown label {{
+            color: var(--text-primary) !important;
+        }}
+        
+        /* Ensure form elements are visible */
+        .stRadio > div,
+        .stCheckbox > div {{
+            color: var(--text-primary) !important;
+        }}
+        
+        /* Override any inherited white colors */
+        .question-card *,
+        .progress-container *,
+        .uia-header * {{
+            color: inherit !important;
+        }}
     }}
 </style>
 """, unsafe_allow_html=True)
