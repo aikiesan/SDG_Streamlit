@@ -112,12 +112,152 @@ st.markdown("""
         .block-container { padding: 1rem 2rem 5rem 2rem; }
     }
 
+    /* === REMOVE WHITE BACKGROUND BLOCKS === */
+    /* Target all possible Streamlit text containers and remove white backgrounds */
+    .stMarkdown, .stMarkdown > div, .stMarkdown > div > div,
+    .stText, .stText > div, .stText > div > div,
+    .stCaption, .stCaption > div, .stCaption > div > div,
+    .stAlert, .stAlert > div, .stAlert > div > div,
+    .stSuccess, .stSuccess > div, .stSuccess > div > div,
+    .stWarning, .stWarning > div, .stWarning > div > div,
+    .stError, .stError > div, .stError > div > div,
+    .stInfo, .stInfo > div, .stInfo > div > div,
+    .stException, .stException > div, .stException > div > div,
+    .stHelp, .stHelp > div, .stHelp > div > div,
+    .stCode, .stCode > div, .stCode > div > div,
+    .stJson, .stJson > div, .stJson > div > div,
+    .stDataFrame, .stDataFrame > div, .stDataFrame > div > div,
+    .stMetric, .stMetric > div, .stMetric > div > div,
+    .stProgress, .stProgress > div, .stProgress > div > div,
+    .stSpinner, .stSpinner > div, .stSpinner > div > div,
+    .stBalloons, .stBalloons > div, .stBalloons > div > div,
+    .stSnow, .stSnow > div, .stSnow > div > div,
+    .stSidebar, .stSidebar > div, .stSidebar > div > div,
+    .stExpander, .stExpander > div, .stExpander > div > div,
+    .stTabs, .stTabs > div, .stTabs > div > div,
+    .stRadio, .stRadio > div, .stRadio > div > div,
+    .stCheckbox, .stCheckbox > div, .stCheckbox > div > div,
+    .stSelectbox, .stSelectbox > div, .stSelectbox > div > div,
+    .stMultiselect, .stMultiselect > div, .stMultiselect > div > div,
+    .stTextInput, .stTextInput > div, .stTextInput > div > div,
+    .stTextArea, .stTextArea > div, .stTextArea > div > div,
+    .stNumberInput, .stNumberInput > div, .stNumberInput > div > div,
+    .stDateInput, .stDateInput > div, .stDateInput > div > div,
+    .stTimeInput, .stTimeInput > div, .stTimeInput > div > div,
+    .stFileUploader, .stFileUploader > div, .stFileUploader > div > div,
+    .stColorPicker, .stColorPicker > div, .stColorPicker > div > div,
+    .stSlider, .stSlider > div, .stSlider > div > div,
+    .stSelectSlider, .stSelectSlider > div, .stSelectSlider > div > div,
+    .stButton, .stButton > div, .stButton > div > div,
+    .stDownloadButton, .stDownloadButton > div, .stDownloadButton > div > div,
+    .stLinkButton, .stLinkButton > div, .stLinkButton > div > div,
+    .stCameraInput, .stCameraInput > div, .stCameraInput > div > div,
+    .stChatInput, .stChatInput > div, .stChatInput > div > div,
+    .stChatMessage, .stChatMessage > div, .stChatMessage > div > div,
+    .stPlotlyChart, .stPlotlyChart > div, .stPlotlyChart > div > div,
+    .stVegaLiteChart, .stVegaLiteChart > div, .stVegaLiteChart > div > div,
+    .stPydeckChart, .stPydeckChart > div, .stPydeckChart > div > div,
+    .stGraphvizChart, .stGraphvizChart > div, .stGraphvizChart > div > div,
+    .stBokehChart, .stBokehChart > div, .stBokehChart > div > div,
+    .stAltairChart, .stAltairChart > div, .stAltairChart > div > div,
+    .stFoliumMap, .stFoliumMap > div, .stFoliumMap > div > div,
+    .stImage, .stImage > div, .stImage > div > div,
+    .stVideo, .stVideo > div, .stVideo > div > div,
+    .stAudio, .stAudio > div, .stAudio > div > div,
+    .stEmpty, .stEmpty > div, .stEmpty > div > div,
+    .stContainer, .stContainer > div, .stContainer > div > div,
+    .stColumns, .stColumns > div, .stColumns > div > div,
+    .stColumn, .stColumn > div, .stColumn > div > div,
+    .stRow, .stRow > div, .stRow > div > div,
+    .stForm, .stForm > div, .stForm > div > div,
+    .stFormSubmitButton, .stFormSubmitButton > div, .stFormSubmitButton > div > div,
+    .stSessionState, .stSessionState > div, .stSessionState > div > div,
+    .stCache, .stCache > div, .stCache > div > div,
+    .stExperimental, .stExperimental > div, .stExperimental > div > div,
+    .stBeta, .stBeta > div, .stBeta > div > div,
+    .stDeprecated, .stDeprecated > div, .stDeprecated > div > div,
+    .stWarning, .stWarning > div, .stWarning > div > div,
+    .stError, .stError > div, .stError > div > div,
+    .stSuccess, .stSuccess > div, .stSuccess > div > div,
+    .stInfo, .stInfo > div, .stInfo > div > div,
+    .stException, .stException > div, .stException > div > div,
+    .stHelp, .stHelp > div, .stHelp > div > div,
+    .stCode, .stCode > div, .stCode > div > div,
+    .stJson, .stJson > div, .stJson > div > div,
+    .stDataFrame, .stDataFrame > div, .stDataFrame > div > div,
+    .stMetric, .stMetric > div, .stMetric > div > div,
+    .stProgress, .stProgress > div, .stProgress > div > div,
+    .stSpinner, .stSpinner > div, .stSpinner > div > div,
+    .stBalloons, .stBalloons > div, .stBalloons > div > div,
+    .stSnow, .stSnow > div, .stSnow > div > div,
+    .stSidebar, .stSidebar > div, .stSidebar > div > div,
+    .stExpander, .stExpander > div, .stExpander > div > div,
+    .stTabs, .stTabs > div, .stTabs > div > div,
+    .stRadio, .stRadio > div, .stRadio > div > div,
+    .stCheckbox, .stCheckbox > div, .stCheckbox > div > div,
+    .stSelectbox, .stSelectbox > div, .stSelectbox > div > div,
+    .stMultiselect, .stMultiselect > div, .stMultiselect > div > div,
+    .stTextInput, .stTextInput > div, .stTextInput > div > div,
+    .stTextArea, .stTextArea > div, .stTextArea > div > div,
+    .stNumberInput, .stNumberInput > div, .stNumberInput > div > div,
+    .stDateInput, .stDateInput > div, .stDateInput > div > div,
+    .stTimeInput, .stTimeInput > div, .stTimeInput > div > div,
+    .stFileUploader, .stFileUploader > div, .stFileUploader > div > div,
+    .stColorPicker, .stColorPicker > div, .stColorPicker > div > div,
+    .stSlider, .stSlider > div, .stSlider > div > div,
+    .stSelectSlider, .stSelectSlider > div, .stSelectSlider > div > div,
+    .stButton, .stButton > div, .stButton > div > div,
+    .stDownloadButton, .stDownloadButton > div, .stDownloadButton > div > div,
+    .stLinkButton, .stLinkButton > div, .stLinkButton > div > div,
+    .stCameraInput, .stCameraInput > div, .stCameraInput > div > div,
+    .stChatInput, .stChatInput > div, .stChatInput > div > div,
+    .stChatMessage, .stChatMessage > div, .stChatMessage > div > div,
+    .stPlotlyChart, .stPlotlyChart > div, .stPlotlyChart > div > div,
+    .stVegaLiteChart, .stVegaLiteChart > div, .stVegaLiteChart > div > div,
+    .stPydeckChart, .stPydeckChart > div, .stPydeckChart > div > div,
+    .stGraphvizChart, .stGraphvizChart > div, .stGraphvizChart > div > div,
+    .stBokehChart, .stBokehChart > div, .stBokehChart > div > div,
+    .stAltairChart, .stAltairChart > div, .stAltairChart > div > div,
+    .stFoliumMap, .stFoliumMap > div, .stFoliumMap > div > div,
+    .stImage, .stImage > div, .stImage > div > div,
+    .stVideo, .stVideo > div, .stVideo > div > div,
+    .stAudio, .stAudio > div, .stAudio > div > div,
+    .stEmpty, .stEmpty > div, .stEmpty > div > div,
+    .stContainer, .stContainer > div, .stContainer > div > div,
+    .stColumns, .stColumns > div, .stColumns > div > div,
+    .stColumn, .stColumn > div, .stColumn > div > div,
+    .stRow, .stRow > div, .stRow > div > div,
+    .stForm, .stForm > div, .stForm > div > div,
+    .stFormSubmitButton, .stFormSubmitButton > div, .stFormSubmitButton > div > div,
+    .stSessionState, .stSessionState > div, .stSessionState > div > div,
+    .stCache, .stCache > div, .stCache > div > div,
+    .stExperimental, .stExperimental > div, .stExperimental > div > div,
+    .stBeta, .stBeta > div, .stBeta > div > div,
+    .stDeprecated, .stDeprecated > div, .stDeprecated > div > div {
+        background-color: transparent !important;
+        background: transparent !important;
+        background-image: none !important;
+        background-size: auto !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-attachment: scroll !important;
+        background-origin: border-box !important;
+        background-clip: border-box !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        color: var(--app-text) !important;
+    }
+
     /* General Text Elements */
     h1, h2, h3, h4, h5, h6, p, li, label,
     .stMarkdown /* For text generated by st.markdown() */
     {
         color: var(--app-text) !important;
         background-color: transparent !important; /* Prevent unwanted backgrounds */
+        background: transparent !important;
         line-height: 1.6;
     }
     h1,h2,h3,h4,h5,h6 { font-weight: 700; margin-bottom: 1rem; }
