@@ -1,9 +1,9 @@
 [theme]
 # Light theme configuration to force consistent styling
-primaryColor = "#E63946"  # UIA Red
+primaryColor = "#FF6B6B"
 backgroundColor = "#FFFFFF"  # Pure white background
-secondaryBackgroundColor = "#F8FAFC"  # Light grey for secondary elements
-textColor = "#000000"  # Pure black text for maximum visibility
+secondaryBackgroundColor = "#F0F2F6"
+textColor = "#262730"
 
 # Additional theme settings for consistency
 base = "light"  # Force light base theme
