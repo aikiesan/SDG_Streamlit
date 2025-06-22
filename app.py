@@ -951,7 +951,7 @@ def create_performance_distribution_chart(performance_distribution: dict):
 
 # --- UI Rendering Functions ---
 def render_header():
-    st.markdown("""<div class="uia-header"><h1>🏗️ UIA SDG Assessment Toolkit</h1><p style="font-size: 1.2rem; margin: 0; opacity: 0.95; color: #000000;">UIA SDG Assessment Toolkit 🌿</p></div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="uia-header"><h1>🏗️ UIA SDG Assessment Toolkit</h1><p style="font-size: 1.2rem; margin: 0; opacity: 0.95; color: #1D3557;">UIA SDG Assessment Toolkit 🌿</p></div>""", unsafe_allow_html=True)
 
 def render_intro():
     st.markdown("""<div class="intro-container"><h2>Welcome to the UIA SDG Assessment Toolkit</h2><p>This tool evaluates your project's alignment with the UN Sustainable Development Goals, using a scoring system designed for architecture that recognizes synergies between goals.</p><p>Complete the questionnaire to receive a detailed sustainability report, including actionable, phase-specific recommendations.</p></div>""", unsafe_allow_html=True)
