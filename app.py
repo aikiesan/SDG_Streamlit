@@ -354,7 +354,7 @@ st.markdown(f"""
     }}
 
     /* Mobile Navigation */
-    .mobile-nav {
+    .mobile-nav {{
         position: fixed;
         bottom: 0;
         left: 0;
@@ -364,16 +364,16 @@ st.markdown(f"""
         box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         z-index: 1000;
         border-top: 2px solid rgba(255,255,255,0.2);
-    }
+    }}
     
-    .nav-grid {
+    .nav-grid {{
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 2fr;
         gap: 8px;
         align-items: center;
-    }
+    }}
     
-    .mobile-nav button {
+    .mobile-nav button {{
         background: rgba(255,255,255,0.9);
         border: none;
         border-radius: 8px;
@@ -383,47 +383,47 @@ st.markdown(f"""
         color: #333;
         transition: all 0.3s ease;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
+    }}
     
-    .mobile-nav button:hover {
+    .mobile-nav button:hover {{
         background: rgba(255,255,255,1);
         transform: translateY(-1px);
         box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
+    }}
     
-    .mobile-nav button:disabled {
+    .mobile-nav button:disabled {{
         background: rgba(255,255,255,0.3);
         color: rgba(0,0,0,0.3);
         cursor: not-allowed;
         transform: none;
         box-shadow: none;
-    }
+    }}
     
     /* Make the NEXT button more prominent */
     .mobile-nav button[data-testid*="next_mobile"],
-    .mobile-nav button[data-testid*="submit_mobile"] {
+    .mobile-nav button[data-testid*="submit_mobile"] {{
         background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
         color: white;
         font-weight: 700;
         font-size: 1rem;
         padding: 12px 8px;
         box-shadow: 0 3px 6px rgba(76, 175, 80, 0.3);
-    }
+    }}
     
     .mobile-nav button[data-testid*="next_mobile"]:hover,
-    .mobile-nav button[data-testid*="submit_mobile"]:hover {
+    .mobile-nav button[data-testid*="submit_mobile"]:hover {{
         background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
         transform: translateY(-2px);
         box-shadow: 0 5px 12px rgba(76, 175, 80, 0.4);
-    }
+    }}
     
     /* Style the page counter */
-    .mobile-nav .page-counter {
+    .mobile-nav .page-counter {{
         text-align: center;
         color: rgba(255,255,255,0.9);
         font-weight: 600;
         font-size: 0.9rem;
-    }
+    }}
 
     /* Tab styling enhancements */
     .stTabs [data-baseweb="tab-list"] {{
