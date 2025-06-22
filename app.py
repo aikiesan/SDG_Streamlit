@@ -428,7 +428,7 @@ st.markdown(f"""
         /* Results Page Specifics - AVOID OVERRIDING THESE on mobile if they are meant to be light on dark */
         /* For example, the overall score display has white text on a dark gradient.
            We do NOT want to force that text to be dark.
-           So, avoid general rules like '.results-card * { color: var(--text-primary) !important; }'
+           So, avoid general rules like '.results-card * {{ color: var(--text-primary) !important; }}'
         */
         
         /* If chart titles/labels become white on white on mobile, target them via Plotly's font settings
