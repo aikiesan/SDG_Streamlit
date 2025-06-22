@@ -52,6 +52,9 @@ st.set_page_config(
     }
 )
 
+# ADD THIS LINE: Meta tag to signal color scheme preference
+st.markdown("<meta name='color-scheme' content='light'>", unsafe_allow_html=True)
+
 # MOBILE-ACCESSIBLE STREAMLIT CSS - BLACK TEXT FIX
 # Updated CSS with maximum text visibility and accessibility
 st.markdown("""
@@ -67,68 +70,106 @@ st.markdown("""
         --surface: #ffffff;
         --surface-hover: #f1f5f9;
         --border: #e2e8f0;
-        --text-primary: #000000; /* Changed to pure black */
-        --text-secondary: #000000; /* Changed to pure black */
-        --text-muted: #374151; /* Darker for better visibility */
+        --text-primary: #000000;
+        --text-secondary: #000000;
+        --text-muted: #374151;
         --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         --radius: 12px;
         --radius-lg: 16px;
         --radius-xl: 20px;
+
+        /* FORCED LIGHT THEME VARIABLES */
+        --forced-bg: #ffffff;
+        --forced-text: #000000;
+        --forced-card-bg: #ffffff;
+        --forced-card-border: #e0e0e0;
+        --forced-button-bg: #f0f0f0;
+        --forced-button-text: #000000;
+        --forced-button-border: #000000;
+
+        /* Special elements to keep dark with white text (UIA Branding) */
+        --special-dark-bg: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%);
+        --special-dark-text: #ffffff;
+        
+        /* Variables for text shades if you don't want pure black everywhere */
+        --text-primary-forced: #000000;
+        --text-secondary-forced: #333333;
+        --text-muted-forced: #555555;
     }
 
     /* Hide Streamlit elements */
     #MainMenu, footer, header, .stDeployButton { visibility: hidden !important; }
     
-    /* CRITICAL: FORCE ALL TEXT TO BLACK FOR MAXIMUM VISIBILITY */
-    /* This is the main fix for your mobile text visibility issues */
-    * {
-        color: #000000 !important; /* Force ALL text to black */
-    }
-    
-    /* Base App Styling with light background */
-    .stApp { 
-        background: #ffffff !important; /* Pure white background */
+    /* GENERAL OVERRIDES FOR LIGHT THEME */
+    body, .stApp {
+        background-color: var(--forced-bg) !important;
+        color: var(--forced-text) !important;
         font-family: 'Inter', sans-serif;
-        color: #000000 !important;
     }
-    
-    .block-container { 
-        padding: 1rem 1rem 6rem 1rem; 
-        max-width: 1200px; 
-        background: #ffffff !important; /* Ensure white background */
+
+    .block-container {
+        background-color: var(--forced-bg) !important;
+        color: var(--forced-text) !important;
+        padding: 1rem 1rem 6rem 1rem;
+        max-width: 1200px;
     }
     
     /* Mobile-first responsive design */
     @media (min-width: 768px) {
-        .block-container { 
-            padding: 1rem 2rem 5rem 2rem; 
+        .block-container {
+            padding: 1rem 2rem 5rem 2rem;
         }
     }
 
-    /* ALL HEADINGS - FORCE BLACK TEXT */
-    h1, h2, h3, h4, h5, h6,
-    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
-        color: #000000 !important;
-        font-weight: 700 !important;
-        margin-bottom: 1rem !important;
+    /* Force all common text-hosting elements to black text */
+    h1, h2, h3, h4, h5, h6, p, span, div, label, li, text,
+    .stMarkdown, .stMarkdown *,
+    .question-title, .intro-container *, .progress-container *,
+    .section-title-wrapper *,
+    .stAlert *, .stMetric *, .stTabs * {
+        color: var(--forced-text) !important;
+        background-color: transparent !important;
     }
-    
-    /* ALL PARAGRAPHS AND TEXT - FORCE BLACK TEXT */
-    p, span, div, label, text,
-    .stMarkdown p, .stMarkdown span, .stMarkdown div {
-        color: #000000 !important;
-        line-height: 1.6 !important;
+
+    /* Ensure links are also black, or a very dark noticeable color */
+    a, a:visited {
+        color: #0000EE !important;
+        text-decoration: underline !important;
+    }
+
+    /* LIGHT THEME FOR MOST COMPONENTS */
+    .intro-container, .progress-container, .question-card,
+    .stCheckbox > div > div > label, .stRadio > div > label,
+    .stTabs [data-baseweb="tab-list"], .stTabs [data-baseweb="tab"],
+    .stMetric, .chart-container, .stAlert,
+    .mobile-nav, .mobile-nav .page-counter,
+    .streamlit-expanderHeader, .streamlit-expanderContent {
+        background-color: var(--forced-card-bg) !important;
+        color: var(--forced-text) !important;
+        border: 1px solid var(--forced-card-border) !important;
+    }
+
+    /* Ensure text *inside* these components is also black */
+    .intro-container *, .progress-container *, .question-card *,
+    .stCheckbox > div > div > label *, .stRadio > div > label *,
+    .stTabs [data-baseweb="tab-list"] *, .stTabs [data-baseweb="tab"] *,
+    .stMetric *, .stAlert *,
+    .mobile-nav *, .mobile-nav .page-counter *,
+    .streamlit-expanderHeader *, .streamlit-expanderContent * {
+        color: var(--forced-text) !important;
     }
 
     /* Enhanced Button Styling - SIMPLIFIED FOR VISIBILITY */
-    .stButton > button { 
-        border-radius: var(--radius); 
+    .stButton > button,
+    .mobile-next-button-container .stButton > button,
+    .desktop-submit-button-container .stButton > button {
+        background-color: var(--forced-button-bg) !important;
+        color: var(--forced-button-text) !important;
+        border: 2px solid var(--forced-button-border) !important;
+        border-radius: var(--radius);
         font-weight: 700 !important;
-        border: 2px solid #000000 !important; /* Black border */
-        background: #ffffff !important; /* White background */
-        color: #000000 !important; /* Black text */
         box-shadow: var(--shadow);
         transition: all 0.2s ease;
         font-size: 1rem;
@@ -137,21 +178,21 @@ st.markdown("""
         display: flex;
         align-items: center;
         justify-content: center;
+        text-shadow: none !important;
     }
     
     .stButton > button:hover {
+        background-color: #e0e0e0 !important;
         transform: translateY(-2px);
         box-shadow: var(--shadow-lg);
-        background: #f8fafc !important; /* Light grey on hover */
         border-color: #374151 !important;
     }
 
-    /* Force button text to be black */
+    /* Text inside buttons */
     .stButton > button *,
-    .stButton > button span,
-    .stButton > button div {
-        color: #000000 !important;
-        font-weight: inherit !important;
+    .mobile-next-button-container .stButton > button *,
+    .desktop-submit-button-container .stButton > button * {
+        color: var(--forced-button-text) !important;
     }
 
     /* Mobile-specific button enhancements */
@@ -161,29 +202,29 @@ st.markdown("""
             padding: 1rem 1.5rem !important;
             min-height: 56px !important;
             font-weight: 700 !important;
-            border: 3px solid #000000 !important; /* Thicker border for mobile */
+            border: 3px solid var(--forced-button-border) !important;
         }
     }
 
     /* Enhanced intro page styling - LIGHT BACKGROUND */
     .intro-container {
-        background: #ffffff !important;
+        background: var(--forced-card-bg) !important;
         border-radius: var(--radius-lg) !important;
         padding: 2rem !important;
         margin-bottom: 2rem !important;
         box-shadow: var(--shadow-lg) !important;
-        border: 2px solid #e5e7eb !important; /* Light border */
+        border: 2px solid var(--forced-card-border) !important;
     }
 
     .intro-container h2 {
-        color: #000000 !important;
+        color: var(--forced-text) !important;
         font-weight: 700 !important;
         margin-bottom: 1.5rem !important;
         font-size: 1.5rem !important;
     }
 
     .intro-container p {
-        color: #000000 !important;
+        color: var(--forced-text) !important;
         line-height: 1.6 !important;
         margin-bottom: 1rem !important;
         font-size: 1rem !important;
@@ -195,42 +236,42 @@ st.markdown("""
         display: flex !important;
         align-items: flex-start !important;
         padding: 1rem !important;
-        background: #ffffff !important; /* Pure white background */
-        border: 2px solid #d1d5db !important; /* Light grey border */
+        background: var(--forced-card-bg) !important;
+        border: 2px solid var(--forced-card-border) !important;
         border-radius: var(--radius) !important;
         transition: all 0.2s ease-in-out;
         box-sizing: border-box !important;
         margin-bottom: 0.75rem !important;
         font-size: 0.9rem !important;
-        color: #000000 !important;
+        color: var(--forced-text) !important;
     }
 
     .stRadio > div > label {
         display: flex !important;
         align-items: flex-start !important;
         padding: 1rem !important;
-        background: #ffffff !important; /* Pure white background */
-        border: 2px solid #d1d5db !important; /* Light grey border */
+        background: var(--forced-card-bg) !important;
+        border: 2px solid var(--forced-card-border) !important;
         border-radius: var(--radius) !important;
         margin-bottom: 0.75rem !important;
         transition: all 0.2s ease-in-out;
-        width: 100% !important; 
+        width: 100% !important;
         box-sizing: border-box !important;
         font-size: 0.9rem !important;
-        color: #000000 !important;
+        color: var(--forced-text) !important;
     }
 
     /* Force text in radio/checkbox options to be black */
     .stRadio > div > label *,
     .stCheckbox > div > div > label * {
-        color: #000000 !important;
+        color: var(--forced-text) !important;
         font-weight: 500 !important;
     }
 
     /* Hover effects - light backgrounds */
     .stRadio > div > label:hover, 
     .stCheckbox > div > div > label:hover {
-        background: #f9fafb !important; /* Very light grey */
+        background: #f9fafb !important;
         border-color: #6b7280 !important;
         box-shadow: var(--shadow);
     }
@@ -238,32 +279,32 @@ st.markdown("""
     /* Selected states - light backgrounds */
     .stRadio > div > label:has(input:checked),
     .stCheckbox > div > div > label:has(input:checked) {
-        background: #f0f9ff !important; /* Very light blue */
+        background: #f0f9ff !important;
         border-color: #3b82f6 !important;
         box-shadow: var(--shadow) !important;
     }
 
-    /* Enhanced Header - SIMPLIFIED FOR VISIBILITY */
-    .uia-header { 
-        background: #ffffff !important; /* White background */
-        color: #000000 !important; /* Black text */
-        padding: 2rem 1.5rem; 
-        border-radius: var(--radius-lg); 
-        margin-bottom: 2rem; 
-        text-align: center; 
+    /* SPECIAL ELEMENTS TO KEEP DARK WITH WHITE TEXT (UIA Branding) */
+    .uia-header {
+        background: var(--special-dark-bg) !important;
+        color: var(--special-dark-text) !important;
+        padding: 2rem 1.5rem;
+        border-radius: var(--radius-lg);
+        margin-bottom: 2rem;
+        text-align: center;
         box-shadow: var(--shadow-xl);
-        border: 3px solid #e5e7eb !important; /* Light border */
+        border: 3px solid #e5e7eb !important;
     }
     
-    .uia-header h1 { 
-        color: #000000 !important; /* Black text */
-        font-size: 2rem; 
-        font-weight: 900; 
+    .uia-header h1 {
+        color: var(--special-dark-text) !important;
+        font-size: 2rem;
+        font-weight: 900;
         margin: 0 !important;
     }
     
     .uia-header p {
-        color: #000000 !important; /* Black text */
+        color: var(--special-dark-text) !important;
         margin: 0.5rem 0 0 0 !important;
     }
 
@@ -279,36 +320,36 @@ st.markdown("""
     }
 
     /* Enhanced Progress Container - LIGHT BACKGROUND */
-    .progress-container { 
-        background: #ffffff !important; /* White background */
-        padding: 1.5rem; 
-        border-radius: var(--radius-lg); 
-        box-shadow: var(--shadow); 
+    .progress-container {
+        background: var(--forced-card-bg) !important;
+        padding: 1.5rem;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
         margin-bottom: 2rem;
-        border: 2px solid #e5e7eb !important; /* Light border */
+        border: 2px solid var(--forced-card-border) !important;
     }
 
     /* Enhanced Question Cards - LIGHT BACKGROUNDS */
     .question-card {
-        background: #ffffff !important; /* Pure white background */
+        background: var(--forced-card-bg) !important;
         border-radius: var(--radius-lg);
         padding: 1.5rem;
         margin-bottom: 1.5rem;
-        border: 2px solid #e5e7eb !important; /* Light grey border */
+        border: 2px solid var(--forced-card-border) !important;
         box-shadow: var(--shadow);
         transition: all 0.2s ease-in-out;
     }
     
     .question-card:hover {
-        border-color: #9ca3af !important; /* Darker grey on hover */
+        border-color: #9ca3af !important;
         box-shadow: var(--shadow-lg);
         transform: translateY(-2px);
-        background: #f9fafb !important; /* Very light grey on hover */
+        background: #f9fafb !important;
     }
 
     .question-title {
         font-weight: 600 !important;
-        color: #000000 !important;
+        color: var(--forced-text) !important;
         font-size: 1.1rem;
         margin-bottom: 1.25rem;
         line-height: 1.5;
@@ -334,11 +375,11 @@ st.markdown("""
         bottom: 0;
         left: 0;
         right: 0;
-        background: #ffffff !important; /* White background */
+        background: var(--forced-card-bg) !important;
         padding: 12px;
         box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
         z-index: 1000;
-        border-top: 3px solid #e5e7eb !important; /* Light border */
+        border-top: 3px solid var(--forced-card-border) !important;
     }
     
     .nav-grid {
@@ -349,13 +390,13 @@ st.markdown("""
     }
     
     .mobile-nav button {
-        background: #ffffff !important; /* White background */
-        border: 2px solid #d1d5db !important; /* Light grey border */
+        background: var(--forced-card-bg) !important;
+        border: 2px solid var(--forced-card-border) !important;
         border-radius: 10px;
         padding: 12px 8px;
         font-size: 0.9rem;
         font-weight: 700;
-        color: #000000 !important; /* Black text */
+        color: var(--forced-text) !important;
         transition: all 0.3s ease;
         box-shadow: 0 3px 8px rgba(0,0,0,0.15);
         min-height: 48px;
@@ -365,15 +406,15 @@ st.markdown("""
     }
     
     .mobile-nav button:hover {
-        background: #f9fafb !important; /* Light grey on hover */
+        background: #f9fafb !important;
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         border-color: #6b7280 !important;
     }
     
     .mobile-nav button:disabled {
-        background: #f3f4f6 !important; /* Light disabled background */
-        color: #9ca3af !important; /* Grey text for disabled */
+        background: #f3f4f6 !important;
+        color: #9ca3af !important;
         cursor: not-allowed;
         transform: none;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -383,13 +424,13 @@ st.markdown("""
     /* Style the page counter */
     .mobile-nav .page-counter {
         text-align: center;
-        color: #000000 !important; /* Black text */
+        color: var(--forced-text) !important;
         font-weight: 700;
         font-size: 1rem;
         padding: 8px;
-        background: #f3f4f6 !important; /* Light grey background */
+        background: #f3f4f6 !important;
         border-radius: 8px;
-        border: 2px solid #d1d5db !important; /* Light border */
+        border: 2px solid var(--forced-card-border) !important;
     }
 
     /* Force mobile navigation button text to be black */
@@ -397,10 +438,10 @@ st.markdown("""
     .mobile-nav .stButton > button *,
     .mobile-nav .stButton > button span,
     .mobile-nav .stButton > button div {
-        background: #ffffff !important;
-        color: #000000 !important;
+        background: var(--forced-card-bg) !important;
+        color: var(--forced-text) !important;
         font-weight: 700 !important;
-        border: 2px solid #d1d5db !important;
+        border: 2px solid var(--forced-card-border) !important;
     }
 
     /* Better spacing for mobile */
@@ -413,36 +454,36 @@ st.markdown("""
     /* Tab styling enhancements - LIGHT THEME */
     .stTabs [data-baseweb="tab-list"] {
         gap: 0.5rem;
-        background: #ffffff !important; /* White background */
+        background: var(--forced-card-bg) !important;
         padding: 0.5rem;
         border-radius: var(--radius);
         box-shadow: var(--shadow);
         margin-bottom: 1.5rem;
-        border: 2px solid #e5e7eb !important; /* Light border */
+        border: 2px solid var(--forced-card-border) !important;
     }
     
     .stTabs [data-baseweb="tab"] {
         border-radius: var(--radius);
         padding: 0.75rem 1.5rem;
         font-weight: 600;
-        border: 2px solid #d1d5db !important; /* Light border */
-        background: #ffffff !important; /* White background */
-        color: #000000 !important; /* Black text */
+        border: 2px solid var(--forced-card-border) !important;
+        background: var(--forced-card-bg) !important;
+        color: var(--forced-text) !important;
     }
     
     .stTabs [aria-selected="true"] {
-        background: #f3f4f6 !important; /* Light grey for selected */
-        color: #000000 !important; /* Black text */
-        border-color: #6b7280 !important; /* Darker border for selected */
+        background: #f3f4f6 !important;
+        color: var(--forced-text) !important;
+        border-color: #6b7280 !important;
         box-shadow: var(--shadow);
     }
 
     /* Enhanced metrics and info boxes - LIGHT BACKGROUNDS */
     .stMetric {
-        background: #ffffff !important; /* White background */
+        background: var(--forced-card-bg) !important;
         padding: 1rem;
         border-radius: var(--radius);
-        border: 2px solid #e5e7eb !important; /* Light border */
+        border: 2px solid var(--forced-card-border) !important;
         box-shadow: var(--shadow);
     }
 
@@ -451,36 +492,66 @@ st.markdown("""
     .stMetric > div > div > label,
     .stMetric div[data-testid="stMetricValue"],
     .stMetric div[data-testid="stMetricLabel"] {
-        color: #000000 !important;
+        color: var(--forced-text) !important;
     }
 
     /* Chart container enhancements - LIGHT BACKGROUND */
     .chart-container {
-        background: #ffffff !important; /* White background */
+        background: var(--forced-card-bg) !important;
         border-radius: var(--radius-lg);
         padding: 1.5rem;
         margin-bottom: 1.5rem;
-        border: 2px solid #e5e7eb !important; /* Light border */
+        border: 2px solid var(--forced-card-border) !important;
         box-shadow: var(--shadow);
     }
 
     /* Enhanced section headers */
     .section-header {
-        color: #000000 !important;
+        color: var(--forced-text) !important;
         font-weight: 700 !important;
         font-size: 1.5rem;
         margin-bottom: 1.5rem;
         padding-bottom: 0.5rem;
-        border-bottom: 3px solid #000000 !important; /* Black underline */
+        border-bottom: 3px solid var(--forced-text) !important;
         display: inline-block;
+    }
+
+    /* Section title wrapper - specific targeting for section titles */
+    .section-title-wrapper {
+        background: transparent !important;
+        color: var(--forced-text) !important;
+        margin-bottom: 2rem !important;
+        padding: 1rem 0 !important;
+    }
+
+    .section-title-wrapper h2 {
+        color: var(--forced-text) !important;
+        font-weight: 700 !important;
+        font-size: 1.8rem !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.3 !important;
+        background: transparent !important;
+    }
+
+    .section-title-wrapper * {
+        color: var(--forced-text) !important;
+        background: transparent !important;
+    }
+
+    /* Mobile optimization for section titles */
+    @media (max-width: 768px) {
+        .section-title-wrapper h2 {
+            font-size: 1.5rem !important;
+        }
     }
 
     /* Enhanced info, success, warning, error boxes - LIGHT BACKGROUNDS */
     .stAlert {
         border-radius: var(--radius) !important;
-        border: 2px solid #d1d5db !important; /* Light border */
+        border: 2px solid var(--forced-card-border) !important;
         box-shadow: var(--shadow) !important;
-        background: #ffffff !important; /* White background */
+        background: var(--forced-card-bg) !important;
     }
 
     /* Force alert text to be black */
@@ -489,80 +560,42 @@ st.markdown("""
     .stAlert div,
     .stAlert ul, 
     .stAlert li {
-        color: #000000 !important;
+        color: var(--forced-text) !important;
     }
 
-    /* COMPREHENSIVE OVERRIDE FOR ALL STREAMLIT COMPONENTS */
-    /* This ensures EVERYTHING is black text on white/light backgrounds */
-    .stApp *,
-    .block-container *,
-    .stMarkdown *,
-    .stRadio *,
-    .stCheckbox *,
-    .stSelectbox *,
-    .stTextInput *,
-    .stTextArea *,
-    .stNumberInput *,
-    .stDateInput *,
-    .stTimeInput *,
-    .stFileUploader *,
-    .stColorPicker *,
-    .stSlider *,
-    .stProgress *,
-    .stSpinner *,
-    .stTabs *,
-    .stExpander *,
-    .stContainer *,
-    .stColumns *,
-    .stSidebar * {
-        color: #000000 !important; /* Force black text EVERYWHERE */
-        background-attachment: scroll !important; /* Prevent background issues */
-    }
-
-    /* Ensure all backgrounds are light */
-    .stApp,
-    .block-container,
-    .stMarkdown,
-    .stContainer,
-    .stColumns {
-        background-color: #ffffff !important; /* Force white backgrounds */
-    }
-
-    /* Input field styling - LIGHT BACKGROUNDS */
-    .stTextInput > div > div > input,
-    .stTextArea > div > div > textarea,
-    .stNumberInput > div > div > input,
-    .stSelectbox > div > div > select {
-        background: #ffffff !important; /* White background */
-        border: 2px solid #d1d5db !important; /* Light border */
-        color: #000000 !important; /* Black text */
-        border-radius: var(--radius) !important;
+    /* INPUTS (st.text_input, st.selectbox etc.) */
+    .stTextInput input, .stTextArea textarea, .stSelectbox select, .stNumberInput input,
+    div[data-baseweb="input"] input {
+        background-color: #ffffff !important;
+        color: var(--forced-text) !important;
+        border: 1px solid var(--forced-card-border) !important;
     }
 
     /* Focus states for inputs */
-    .stTextInput > div > div > input:focus,
-    .stTextArea > div > div > textarea:focus,
-    .stNumberInput > div > div > input:focus,
-    .stSelectbox > div > div > select:focus {
-        border-color: #3b82f6 !important; /* Blue border on focus */
+    .stTextInput input:focus,
+    .stTextArea textarea:focus,
+    .stSelectbox select:focus,
+    .stNumberInput input:focus,
+    div[data-baseweb="input"] input:focus {
+        border-color: #3b82f6 !important;
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
     }
 
     /* Slider styling */
     .stSlider > div > div > div > div {
-        background: #ffffff !important; /* White background */
+        background: var(--forced-card-bg) !important;
     }
 
     /* Expander styling - LIGHT BACKGROUND */
     .streamlit-expanderHeader {
-        background: #ffffff !important; /* White background */
-        border: 2px solid #e5e7eb !important; /* Light border */
-        color: #000000 !important; /* Black text */
+        background: var(--forced-card-bg) !important;
+        border: 2px solid var(--forced-card-border) !important;
+        color: var(--forced-text) !important;
     }
 
     .streamlit-expanderContent {
-        background: #ffffff !important; /* White background */
-        border: 2px solid #e5e7eb !important; /* Light border */
+        background: var(--forced-card-bg) !important;
+        border: 2px solid var(--forced-card-border) !important;
         border-top: none !important;
     }
 
@@ -572,16 +605,16 @@ st.markdown("""
     }
     
     ::-webkit-scrollbar-track {
-        background: #f3f4f6; /* Light grey */
+        background: #f3f4f6;
     }
     
     ::-webkit-scrollbar-thumb {
-        background: #9ca3af; /* Medium grey */
+        background: #9ca3af;
         border-radius: 4px;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        background: #6b7280; /* Darker grey on hover */
+        background: #6b7280;
     }
 
     /* Print styles for PDF generation */
@@ -589,32 +622,99 @@ st.markdown("""
         .mobile-nav, .stButton { display: none !important; }
         .block-container { padding: 0 !important; }
         .question-card, .results-card { break-inside: avoid; }
-        * { color: #000000 !important; background: #ffffff !important; }
+        * { color: var(--forced-text) !important; background: var(--forced-bg) !important; }
     }
 
     /* High contrast mode support */
     @media (prefers-contrast: high) {
         * {
-            color: #000000 !important;
-            background: #ffffff !important;
+            color: var(--forced-text) !important;
+            background: var(--forced-bg) !important;
         }
         
         .stButton > button {
-            border: 3px solid #000000 !important;
-            background: #ffffff !important;
-            color: #000000 !important;
+            border: 3px solid var(--forced-text) !important;
+            background: var(--forced-bg) !important;
+            color: var(--forced-text) !important;
         }
     }
 
-    /* Dark mode override - FORCE LIGHT MODE */
+    /* OVERRIDE BROWSER DARK MODE ATTEMPTS */
     @media (prefers-color-scheme: dark) {
-        * {
-            color: #000000 !important;
-            background: #ffffff !important;
+        body, .stApp {
+            background-color: var(--forced-bg) !important;
+            color: var(--forced-text) !important;
         }
         
-        .stApp {
-            background: #ffffff !important;
+        .block-container {
+            background-color: var(--forced-bg) !important;
+            color: var(--forced-text) !important;
+        }
+
+        /* Re-assert light theme for most components */
+        h1,h2,h3,h4,h5,h6,p,span,div,label,li,text, .stMarkdown, .stMarkdown *, .question-title,
+        .intro-container, .progress-container, .question-card,
+        .stCheckbox > div > div > label, .stRadio > div > label,
+        .stTabs [data-baseweb="tab-list"], .stTabs [data-baseweb="tab"],
+        .stMetric, .chart-container, .stAlert,
+        .mobile-nav, .mobile-nav .page-counter,
+        .streamlit-expanderHeader, .streamlit-expanderContent,
+        .stTextInput input, .stTextArea textarea, .stSelectbox select, .stNumberInput input,
+        div[data-baseweb="input"] input {
+            background-color: var(--forced-card-bg) !important;
+            color: var(--forced-text) !important;
+            border-color: var(--forced-card-border) !important;
+        }
+        
+        /* Re-assert text within components */
+        .intro-container *, .progress-container *, .question-card *,
+        .stCheckbox > div > div > label *, .stRadio > div > label *,
+        .stTabs [data-baseweb="tab-list"] *, .stTabs [data-baseweb="tab"] *,
+        .stMetric *, .stAlert *,
+        .mobile-nav *, .mobile-nav .page-counter *,
+        .streamlit-expanderHeader *, .streamlit-expanderContent * {
+            color: var(--forced-text) !important;
+        }
+
+        /* Re-assert button styles */
+        .stButton > button,
+        .mobile-next-button-container .stButton > button,
+        .desktop-submit-button-container .stButton > button {
+            background-color: var(--forced-button-bg) !important;
+            color: var(--forced-button-text) !important;
+            border: 2px solid var(--forced-button-border) !important;
+        }
+        
+        .stButton > button *,
+        .mobile-next-button-container .stButton > button *,
+        .desktop-submit-button-container .stButton > button * {
+            color: var(--forced-button-text) !important;
+        }
+
+        /* Re-assert SPECIAL DARK ELEMENTS */
+        .uia-header {
+            background: var(--special-dark-bg) !important;
+            color: var(--special-dark-text) !important;
+        }
+        
+        .uia-header h1, .uia-header p {
+            color: var(--special-dark-text) !important;
+        }
+
+        /* Re-assert section title wrapper styles */
+        .section-title-wrapper {
+            background: transparent !important;
+            color: var(--forced-text) !important;
+        }
+
+        .section-title-wrapper h2 {
+            color: var(--forced-text) !important;
+            background: transparent !important;
+        }
+
+        .section-title-wrapper * {
+            color: var(--forced-text) !important;
+            background: transparent !important;
         }
     }
 </style>
