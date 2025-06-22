@@ -98,20 +98,93 @@ st.markdown(f"""
         }}
     }}
 
-    /* Enhanced Button Styling */
+    /* Enhanced Button Styling - REFINED WITH BETTER SPECIFICITY */
     .stButton > button {{ 
-        border-radius: var(--radius) !important; 
-        font-weight: 600 !important;
-        border: none !important;
-        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
-        color: white !important;
-        box-shadow: var(--shadow) !important;
-        transition: all 0.2s ease !important;
+        border-radius: var(--radius); 
+        font-weight: 600;
+        border: none;
+        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%);
+        color: white;
+        box-shadow: var(--shadow);
+        transition: all 0.2s ease;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }}
     
     .stButton > button:hover {{
-        transform: translateY(-2px) !important;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%);
+    }}
+
+    /* Mobile-specific button enhancements */
+    @media (max-width: 768px) {{
+        .stButton > button {{
+            font-size: 1.1rem;
+            padding: 1rem 1.5rem;
+            min-height: 56px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3);
+        }}
+        
+        .stButton > button:hover {{
+            box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4);
+        }}
+    }}
+
+    /* Target specific button text elements instead of all children */
+    .stButton > button span {{
+        color: white;
+        font-weight: inherit;
+        text-shadow: inherit;
+    }}
+
+    /* Enhanced intro page styling */
+    .intro-container {{
+        background: var(--surface) !important;
+        border-radius: var(--radius-lg) !important;
+        padding: 2rem !important;
+        margin-bottom: 2rem !important;
         box-shadow: var(--shadow-lg) !important;
+        border: 1px solid var(--border) !important;
+    }}
+
+    .intro-container h2 {{
+        color: var(--text-primary) !important;
+        font-weight: 700 !important;
+        margin-bottom: 1.5rem !important;
+        font-size: 1.5rem !important;
+    }}
+
+    .intro-container p {{
+        color: var(--text-secondary) !important;
+        line-height: 1.6 !important;
+        margin-bottom: 1rem !important;
+        font-size: 1rem !important;
+    }}
+
+    /* Mobile intro page optimization */
+    @media (max-width: 768px) {{
+        .intro-container {{
+            padding: 1.5rem !important;
+            margin-bottom: 1.5rem !important;
+        }}
+        
+        .intro-container h2 {{
+            font-size: 1.3rem !important;
+            margin-bottom: 1rem !important;
+        }}
+        
+        .intro-container p {{
+            font-size: 0.95rem !important;
+            line-height: 1.5 !important;
+        }}
     }}
 
     /* UNIFIED STYLES FOR RADIO AND CHECKBOX OPTIONS */
@@ -316,113 +389,211 @@ st.markdown(f"""
         }}
     }}
 
-    /* Ensure text visibility on mobile */
+    /* More Targeted Mobile Text Visibility Fixes */
     @media (max-width: 768px) {{
-        /* Force text colors for mobile */
-        .stMarkdown, .stText {{
+        /* Ensure question titles remain dark on light cards */
+        .question-title {{
+            color: var(--text-primary) !important;
+        }}
+
+        /* Ensure options text inside radio/checkbox labels are dark */
+        .stRadio > div > label span[data-baseweb="typo-labelmedium"], /* Targets the actual text span in radio */
+        .stCheckbox > div > div > label span[data-baseweb="checkbox"] > div:last-child /* Targets text span in checkbox */ {{
             color: var(--text-primary) !important;
         }}
         
-        /* Ensure question text is visible */
-        p, div, span, label {{
-            color: var(--text-primary) !important;
+        /* If section titles (h2 for section names) become white, target them specifically */
+        .main .block-container h2 {{
+             color: var(--text-primary) !important;
+        }}
+
+        /* For the intro page text, ensure it respects the .intro-container rules */
+        .intro-container h2, 
+        .intro-container p {{
+            /* These should already be handled by your .intro-container specific CSS, 
+               but if they are still white, re-add:
+               color: var(--text-primary) !important; for h2
+               color: var(--text-secondary) !important; for p
+            */
         }}
         
-        /* Override any white text issues */
-        .question-card p,
-        .question-card div,
-        .question-card span {{
-            color: var(--text-primary) !important;
+        /* Ensure progress container text is visible (if it was an issue) */
+        .progress-container span {{
+            /* If the black text becomes white, set color: var(--text-primary) !important;
+               If the red percentage becomes white, set the specific span's color.
+               Your current progress bar HTML seems to handle this correctly.
+            */
         }}
+
+        /* Results Page Specifics - AVOID OVERRIDING THESE on mobile if they are meant to be light on dark */
+        /* For example, the overall score display has white text on a dark gradient.
+           We do NOT want to force that text to be dark.
+           So, avoid general rules like '.results-card * { color: var(--text-primary) !important; }'
+        */
         
-        /* Ensure radio and checkbox labels are visible */
-        .stRadio > div > label,
-        .stCheckbox > div > div > label {{
-            color: var(--text-primary) !important;
-        }}
-        
-        /* Force all text elements to be visible */
-        * {{
-            color: inherit;
-        }}
-        
-        /* Specific override for any white text */
-        .stMarkdown *,
-        .stText * {{
-            color: var(--text-primary) !important;
-        }}
+        /* If chart titles/labels become white on white on mobile, target them via Plotly's font settings
+           in the Python chart creation functions (e.g., title_font_color, tickfont_color)
+           rather than overly broad CSS. Your chart functions already set font family and color.
+        */
     }}
 
-    /* Mobile Navigation */
+    /* Mobile Navigation - ENHANCED FOR BETTER VISIBILITY */
     .mobile-nav {{
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 10px;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, var(--uia-blue) 0%, var(--uia-red) 100%);
+        padding: 12px;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
         z-index: 1000;
-        border-top: 2px solid rgba(255,255,255,0.2);
+        border-top: 3px solid rgba(255,255,255,0.3);
     }}
     
     .nav-grid {{
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 2fr;
-        gap: 8px;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
         align-items: center;
     }}
     
     .mobile-nav button {{
-        background: rgba(255,255,255,0.9);
-        border: none;
-        border-radius: 8px;
-        padding: 8px 4px;
+        background: rgba(255,255,255,0.95);
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 10px;
+        padding: 12px 8px;
         font-size: 0.9rem;
-        font-weight: 600;
-        color: #333;
+        font-weight: 700;
+        color: var(--text-primary);
         transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }}
     
     .mobile-nav button:hover {{
         background: rgba(255,255,255,1);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        border-color: rgba(255,255,255,0.5);
     }}
     
     .mobile-nav button:disabled {{
-        background: rgba(255,255,255,0.3);
-        color: rgba(0,0,0,0.3);
+        background: rgba(255,255,255,0.4);
+        color: rgba(0,0,0,0.4);
         cursor: not-allowed;
         transform: none;
-        box-shadow: none;
-    }}
-    
-    /* Make the NEXT button more prominent */
-    .mobile-nav button[data-testid*="next_mobile"],
-    .mobile-nav button[data-testid*="submit_mobile"] {{
-        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-        color: white;
-        font-weight: 700;
-        font-size: 1rem;
-        padding: 12px 8px;
-        box-shadow: 0 3px 6px rgba(76, 175, 80, 0.3);
-    }}
-    
-    .mobile-nav button[data-testid*="next_mobile"]:hover,
-    .mobile-nav button[data-testid*="submit_mobile"]:hover {{
-        background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 12px rgba(76, 175, 80, 0.4);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-color: rgba(255,255,255,0.2);
     }}
     
     /* Style the page counter */
     .mobile-nav .page-counter {{
         text-align: center;
-        color: rgba(255,255,255,0.9);
-        font-weight: 600;
-        font-size: 0.9rem;
+        color: rgba(255,255,255,0.95);
+        font-weight: 700;
+        font-size: 1rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        padding: 8px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }}
+
+    /* Mobile Next/Submit Button - SEPARATE FROM BOTTOM NAV */
+    .mobile-next-button {{
+        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+        padding: 1rem 1.5rem !important;
+        border: none !important;
+        border-radius: var(--radius) !important;
+        box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+        min-height: 56px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 1.5rem 0 !important;
+        transition: all 0.3s ease !important;
+    }}
+    
+    .mobile-next-button:hover {{
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
+        background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%) !important;
+    }}
+
+    /* Force mobile next button text visibility */
+    .mobile-next-button span,
+    .mobile-next-button div,
+    .mobile-next-button p {{
+        color: white !important;
+        font-weight: inherit !important;
+        text-shadow: inherit !important;
+    }}
+
+    /* Additional mobile navigation button fixes */
+    .mobile-nav .stButton > button {{
+        background: rgba(255,255,255,0.95) !important;
+        color: var(--text-primary) !important;
+        font-weight: 700 !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+    }}
+
+    .mobile-nav .stButton > button span,
+    .mobile-nav .stButton > button div {{
+        color: var(--text-primary) !important;
+        font-weight: inherit !important;
+        text-shadow: inherit !important;
+    }}
+
+    /* Ensure mobile navigation is always visible */
+    @media (max-width: 768px) {{
+        .mobile-nav {{
+            display: block !important;
+        }}
+        
+        .mobile-nav button {{
+            color: var(--text-primary) !important;
+            background: rgba(255,255,255,0.95) !important;
+        }}
+        
+        .mobile-nav button span,
+        .mobile-nav button div {{
+            color: var(--text-primary) !important;
+        }}
+        
+        /* Better spacing for mobile */
+        .block-container {{
+            padding-bottom: 8rem !important;
+        }}
+        
+        /* Ensure proper touch targets */
+        .mobile-nav button {{
+            min-height: 48px !important;
+            padding: 12px 8px !important;
+        }}
+    }}
+
+    /* Extra small mobile devices */
+    @media (max-width: 480px) {{
+        .mobile-nav {{
+            padding: 8px !important;
+        }}
+        
+        .mobile-nav button {{
+            font-size: 0.8rem !important;
+            padding: 10px 6px !important;
+        }}
+        
+        .mobile-nav .page-counter {{
+            font-size: 0.9rem !important;
+        }}
     }}
 
     /* Tab styling enhancements */
@@ -544,44 +715,54 @@ st.markdown(f"""
         .question-card, .results-card {{ break-inside: avoid; }}
     }}
 
-    /* Additional mobile text visibility fixes */
+    /* Refined button visibility fixes - MORE SPECIFIC */
+    .stButton > button {{
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }}
+
+    /* Ensure white text elements stay white on mobile - SIMPLIFIED */
     @media (max-width: 768px) {{
-        /* Override any Streamlit default white text */
-        .stMarkdown,
-        .stMarkdown *,
-        .stText,
-        .stText *,
-        .stRadio,
-        .stRadio *,
-        .stCheckbox,
-        .stCheckbox * {{
-            color: var(--text-primary) !important;
+        /* Header elements should remain white */
+        .uia-header,
+        .uia-header h1,
+        .uia-header p {{
+            color: white !important;
         }}
         
-        /* Force all text content to be visible */
-        .block-container * {{
-            color: var(--text-primary) !important;
+        /* Results page elements with dark backgrounds should have white text */
+        [style*="background: linear-gradient"][style*="color: white"] {{
+            color: white !important;
         }}
         
-        /* Specific fixes for common Streamlit elements */
-        .stMarkdown p,
-        .stMarkdown div,
-        .stMarkdown span,
-        .stMarkdown label {{
-            color: var(--text-primary) !important;
-        }}
-        
-        /* Ensure form elements are visible */
-        .stRadio > div,
-        .stCheckbox > div {{
-            color: var(--text-primary) !important;
-        }}
-        
-        /* Override any inherited white colors */
-        .question-card *,
-        .progress-container *,
-        .uia-header * {{
+        /* Chart elements should maintain their original colors */
+        .js-plotly-plot {{
             color: inherit !important;
+        }}
+    }}
+
+    /* Force button visibility in dark themes - REFINED */
+    @media (prefers-color-scheme: dark) {{
+        .stButton > button {{
+            background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%);
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }}
+    }}
+
+    /* Ensure button text is always visible - REFINED */
+    .stButton > button span {{
+        color: white;
+        font-weight: inherit;
+        text-shadow: inherit;
+    }}
+
+    /* High contrast mode support - REFINED */
+    @media (prefers-contrast: high) {{
+        .stButton > button {{
+            border: 3px solid white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
         }}
     }}
 </style>
@@ -858,7 +1039,7 @@ def render_header():
     st.markdown("""<div class="uia-header"><h1>🏗️ UIA SDG Assessment Toolkit</h1><p style="font-size: 1.2rem; margin: 0; opacity: 0.95;">Architecture for Sustainability 🌿</p></div>""", unsafe_allow_html=True)
 
 def render_intro():
-    st.markdown("""<div style='background-color: white; border-radius: 10px; padding: 2rem; margin-bottom: 2rem;'><h2>Welcome to the UIA SDG Assessment Toolkit</h2><p>This tool evaluates your project's alignment with the UN Sustainable Development Goals, using a scoring system designed for architecture that recognizes synergies between goals.</p><p>Complete the questionnaire to receive a detailed sustainability report, including actionable, phase-specific recommendations.</p></div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="intro-container"><h2>Welcome to the UIA SDG Assessment Toolkit</h2><p>This tool evaluates your project's alignment with the UN Sustainable Development Goals, using a scoring system designed for architecture that recognizes synergies between goals.</p><p>Complete the questionnaire to receive a detailed sustainability report, including actionable, phase-specific recommendations.</p></div>""", unsafe_allow_html=True)
     if st.button("Begin Assessment", use_container_width=True, type="primary"):
         st.session_state.started_assessment = True
         st.rerun()
@@ -974,8 +1155,8 @@ def render_results():
 def mobile_navigation():
     st.markdown('<div class="mobile-nav"><div class="nav-grid">', unsafe_allow_html=True)
     
-    # Define columns for the new layout: Prev, Home, Page, Next/Submit
-    cols = st.columns([1, 1, 1, 2])
+    # Define columns for the new layout: Prev, Home, Page Counter
+    cols = st.columns([1, 1, 1])
 
     with cols[0]: # Previous Button
         if st.button("◀️ Prev", key="prev_mobile", use_container_width=True, help="Go to previous section",
@@ -988,31 +1169,73 @@ def mobile_navigation():
             reset_assessment()
 
     with cols[2]: # Page Counter
-        st.markdown(f"<div class='page-counter' style='text-align:center; padding-top:10px;'>{st.session_state.current_section_idx + 1}/{TOTAL_SECTIONS}</div>", unsafe_allow_html=True)
-
-    with cols[3]: # Next / Submit Button
-        is_last_section = st.session_state.current_section_idx == TOTAL_SECTIONS - 1
-        if not is_last_section:
-            button_text = "Next Section ❯"
-            button_key = "next_mobile"
-            button_help = "Continue to the next section"
-            if st.button(button_text, key=button_key, use_container_width=True, help=button_help):
-                if all_current_questions_answered():
-                    change_section(1)
-                    st.rerun()
-                else:
-                    st.warning("⚠️ Please answer all questions in this section before proceeding.")
-        else:
-            button_text = "View Results 📊"
-            button_key = "submit_mobile"
-            button_help = "Calculate and view assessment results"
-            if st.button(button_text, key=button_key, use_container_width=True, help=button_help):
-                if all_current_questions_answered():
-                    calculate_and_show_results()
-                else:
-                    st.warning("⚠️ Please answer all questions in this section before submitting.")
+        st.markdown(f"<div class='page-counter'>{st.session_state.current_section_idx + 1}/{TOTAL_SECTIONS}</div>", unsafe_allow_html=True)
     
     st.markdown('</div></div>', unsafe_allow_html=True)
+
+def mobile_next_button():
+    """Separate function for the Next/Submit button that appears after questions"""
+    is_last_section = st.session_state.current_section_idx == TOTAL_SECTIONS - 1
+    
+    # Add custom CSS for the mobile next button
+    st.markdown("""
+        <style>
+        .stButton > button[data-testid*="next_mobile_separate"],
+        .stButton > button[data-testid*="submit_mobile_separate"] {
+            background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            padding: 1rem 1.5rem !important;
+            border: none !important;
+            border-radius: var(--radius) !important;
+            box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+            min-height: 56px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 1.5rem 0 !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .stButton > button[data-testid*="next_mobile_separate"]:hover,
+        .stButton > button[data-testid*="submit_mobile_separate"]:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
+            background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%) !important;
+        }
+        
+        .stButton > button[data-testid*="next_mobile_separate"] span,
+        .stButton > button[data-testid*="submit_mobile_separate"] span,
+        .stButton > button[data-testid*="next_mobile_separate"] div,
+        .stButton > button[data-testid*="submit_mobile_separate"] div {
+            color: white !important;
+            font-weight: inherit !important;
+            text-shadow: inherit !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    if not is_last_section:
+        button_text = "Next Section ❯"
+        button_key = "next_mobile_separate"
+        button_help = "Continue to the next section"
+        if st.button(button_text, key=button_key, use_container_width=True, help=button_help):
+            if all_current_questions_answered():
+                change_section(1)
+                st.rerun()
+            else:
+                st.warning("⚠️ Please answer all questions in this section before proceeding.")
+    else:
+        button_text = "View Results 📊"
+        button_key = "submit_mobile_separate"
+        button_help = "Calculate and view assessment results"
+        if st.button(button_text, key=button_key, use_container_width=True, help=button_help):
+            if all_current_questions_answered():
+                calculate_and_show_results()
+            else:
+                st.warning("⚠️ Please answer all questions in this section before submitting.")
 
 def main():
     render_header()
@@ -1023,6 +1246,9 @@ def main():
     else:
         render_progress()
         render_questions()
+        
+        # Mobile Next/Submit button - placed after questions
+        mobile_next_button()
         
         # --- SCROLL TO TOP LOGIC ---
         if st.session_state.get('just_changed_section', False):
@@ -1045,8 +1271,10 @@ def main():
         # Placeholder for warning message specific to desktop submit
         desktop_submit_warning_placeholder = st.empty() 
 
-        mobile_navigation() # mobile_navigation handles its own checks
+        # Bottom mobile navigation - only Prev, Home, and page counter
+        mobile_navigation()
 
+        # Desktop submit button (only on last section)
         if st.session_state.current_section_idx == TOTAL_SECTIONS - 1:
             if st.button("📊 Calculate Final Results", use_container_width=True, type="primary"):
                 if all_current_questions_answered(): # CHECK ADDED
