@@ -776,14 +776,14 @@ st.markdown(f"""
 
     /* Specific targeting for buttons INSIDE mobile-next-button-container */
     .mobile-next-button-container .stButton > button {{
-        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
+        background: #4A5568 !important; /* A medium-dark grey (Tailwind's gray-600) */
         font-weight: 700 !important;
         font-size: 1.1rem !important;
         padding: 1rem 1.5rem !important;
-        border: none !important;
+        border: 1px solid #718096 !important; /* Slightly lighter grey border (gray-500) */
         border-radius: var(--radius) !important;
-        box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+        text-shadow: none !important; /* No shadow needed with solid background */
         min-height: 56px !important;
         display: flex !important;
         align-items: center !important;
@@ -793,8 +793,9 @@ st.markdown(f"""
 
     .mobile-next-button-container .stButton > button:hover {{
         transform: translateY(-2px) !important;
-        box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
-        background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%) !important;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
+        background: #2D3748 !important; /* Darker grey on hover (gray-700) */
+        border-color: #4A5568 !important;
     }}
 
     /* CRITICAL FOR TEXT: Force all text elements INSIDE these buttons to be white */
@@ -803,7 +804,7 @@ st.markdown(f"""
     .mobile-next-button-container .stButton > button div p {{
         color: white !important;
         font-weight: inherit !important;
-        text-shadow: inherit !important;
+        text-shadow: none !important;
     }}
 
     /* Mobile-specific enhancements for buttons in mobile-next-button-container */
@@ -816,7 +817,8 @@ st.markdown(f"""
             font-size: 1.2rem !important;
             padding: 1.25rem 1.5rem !important;
             min-height: 64px !important;
-            box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
+            background: #4A5568 !important; /* Ensure dark grey on mobile */
         }}
     }}
 
@@ -833,11 +835,11 @@ st.markdown(f"""
     .stButton > button:has(span:contains("Next Section")),
     .stButton > button:has(span:contains("View Results")),
     .stButton > button:has(span:contains("Calculate Final Results")) {{
-        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
+        background: #4A5568 !important; /* A medium-dark grey (Tailwind's gray-600) */
         font-weight: 700 !important;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
-        border: none !important;
-        box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
+        text-shadow: none !important; /* No shadow needed with solid background */
+        border: 1px solid #718096 !important; /* Slightly lighter grey border (gray-500) */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
     }}
 
     .stButton > button:has(span:contains("Next Section")) *,
@@ -845,7 +847,16 @@ st.markdown(f"""
     .stButton > button:has(span:contains("Calculate Final Results")) * {{
         color: white !important;
         font-weight: inherit !important;
-        text-shadow: inherit !important;
+        text-shadow: none !important;
+    }}
+
+    /* Hover states for fallback buttons */
+    .stButton > button:has(span:contains("Next Section")):hover,
+    .stButton > button:has(span:contains("View Results")):hover,
+    .stButton > button:has(span:contains("Calculate Final Results")):hover {{
+        background: #2D3748 !important; /* Darker grey on hover (gray-700) */
+        border-color: #4A5568 !important;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
     }}
 
     /* Mobile Navigation Buttons (Prev, Home in bottom bar) */
