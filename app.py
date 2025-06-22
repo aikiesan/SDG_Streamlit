@@ -484,16 +484,21 @@ def change_section(delta):
     new_index = st.session_state.current_section_idx + delta
     if 0 <= new_index < TOTAL_SECTIONS:
         st.session_state.current_section_idx = new_index
-        # Add scroll to top functionality
-        st.markdown("""
-        <script>
-            // Smooth scroll to top when changing sections
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        </script>
-        """, unsafe_allow_html=True)
+        # This JavaScript will be injected on the *next* page render
+        # after the current_section_idx has been updated and st.rerun() (called by buttons) occurs.
+        js_scroll_to_top = """
+            <script>
+                // Ensure this runs after the DOM is ready for the new page content
+                // A small timeout can help ensure elements are settled after Streamlit's render
+                setTimeout(function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }, 100); // 100ms delay, adjust if needed
+            </script>
+            """
+        st.components.v1.html(js_scroll_to_top, height=0) # More robust way to inject JS
 
 def reset_assessment():
     st.session_state.current_section_idx = 0
@@ -895,37 +900,6 @@ def mobile_navigation():
                     calculate_and_show_results() # This handles its own rerun or error display
                 else:
                     st.warning("⚠️ Please answer all questions in this section before submitting.")
-    
-    # Add scroll to top functionality for mobile navigation
-    st.markdown("""
-    <script>
-        // Function to scroll to top smoothly
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-        
-        // Add event listeners to navigation buttons
-        document.addEventListener('DOMContentLoaded', function() {
-            const nextButton = document.querySelector('button[key="next_mobile"]');
-            const prevButton = document.querySelector('button[key="prev_mobile"]');
-            
-            if (nextButton) {
-                nextButton.addEventListener('click', function() {
-                    setTimeout(scrollToTop, 100); // Small delay to ensure navigation happens first
-                });
-            }
-            
-            if (prevButton) {
-                prevButton.addEventListener('click', function() {
-                    setTimeout(scrollToTop, 100);
-                });
-            }
-        });
-    </script>
-    """, unsafe_allow_html=True)
     
     st.markdown('</div></div>', unsafe_allow_html=True)
 
