@@ -353,38 +353,77 @@ st.markdown(f"""
         }}
     }}
 
-    /* Enhanced Mobile Navigation */
-    .mobile-nav {{ 
-        position: fixed; 
-        bottom: 0; 
-        left: 0; 
-        right: 0; 
-        background: var(--surface); 
-        padding: 1rem; 
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.15); 
-        z-index: 1000; 
-        border-top: 1px solid var(--border);
-        backdrop-filter: blur(10px);
-    }}
+    /* Mobile Navigation */
+    .mobile-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 10px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+        border-top: 2px solid rgba(255,255,255,0.2);
+    }
     
-    .nav-grid {{ 
-        display: grid; 
-        grid-template-columns: 1fr 1fr 2fr 1fr 1fr; 
-        gap: 0.5rem; 
-        align-items: center; 
-        max-width: 1200px; 
-        margin: 0 auto; 
-    }}
-
-    /* Enhanced mobile responsiveness */
-    @media (max-width: 768px) {{
-        .nav-grid {{ 
-            grid-template-columns: 1fr 1fr 1fr; 
-        }}
-        .mobile-nav {{
-            padding: 0.875rem 1rem;
-        }}
-    }}
+    .nav-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 2fr;
+        gap: 8px;
+        align-items: center;
+    }
+    
+    .mobile-nav button {
+        background: rgba(255,255,255,0.9);
+        border: none;
+        border-radius: 8px;
+        padding: 8px 4px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #333;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .mobile-nav button:hover {
+        background: rgba(255,255,255,1);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .mobile-nav button:disabled {
+        background: rgba(255,255,255,0.3);
+        color: rgba(0,0,0,0.3);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* Make the NEXT button more prominent */
+    .mobile-nav button[data-testid*="next_mobile"],
+    .mobile-nav button[data-testid*="submit_mobile"] {
+        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        color: white;
+        font-weight: 700;
+        font-size: 1rem;
+        padding: 12px 8px;
+        box-shadow: 0 3px 6px rgba(76, 175, 80, 0.3);
+    }
+    
+    .mobile-nav button[data-testid*="next_mobile"]:hover,
+    .mobile-nav button[data-testid*="submit_mobile"]:hover {
+        background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 12px rgba(76, 175, 80, 0.4);
+    }
+    
+    /* Style the page counter */
+    .mobile-nav .page-counter {
+        text-align: center;
+        color: rgba(255,255,255,0.9);
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
 
     /* Tab styling enhancements */
     .stTabs [data-baseweb="tab-list"] {{
@@ -557,33 +596,22 @@ if 'results' not in st.session_state:
     st.session_state.results = None
 if 'started_assessment' not in st.session_state:
     st.session_state.started_assessment = False
+if 'just_changed_section' not in st.session_state:
+    st.session_state.just_changed_section = False
 
 # --- App Helper Functions ---
 def change_section(delta):
     new_index = st.session_state.current_section_idx + delta
     if 0 <= new_index < TOTAL_SECTIONS:
         st.session_state.current_section_idx = new_index
-        # This JavaScript will be injected on the *next* page render
-        # after the current_section_idx has been updated and st.rerun() (called by buttons) occurs.
-        js_scroll_to_top = """
-            <script>
-                // Ensure this runs after the DOM is ready for the new page content
-                // A small timeout can help ensure elements are settled after Streamlit's render
-                setTimeout(function() {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                }, 100); // 100ms delay, adjust if needed
-            </script>
-            """
-        st.components.v1.html(js_scroll_to_top, height=0) # More robust way to inject JS
+        st.session_state.just_changed_section = True  # Set the flag
 
 def reset_assessment():
     st.session_state.current_section_idx = 0
     st.session_state.responses = {}
     st.session_state.results = None
     st.session_state.started_assessment = False
+    st.session_state.just_changed_section = False
     st.rerun()
 
 def calculate_and_show_results():
@@ -945,38 +973,42 @@ def render_results():
 
 def mobile_navigation():
     st.markdown('<div class="mobile-nav"><div class="nav-grid">', unsafe_allow_html=True)
-    cols = st.columns([1, 1, 2, 1, 1])
     
-    # Placeholder for the warning message, to show it within the nav bar
-    warning_placeholder_nav = cols[2].empty() # Use one of the cols for potential message
+    # Define columns for the new layout: Prev, Home, Page, Next/Submit
+    cols = st.columns([1, 1, 1, 2])
 
-    with cols[0]:
-        if st.button("◀️", key="prev_mobile", use_container_width=True, disabled=st.session_state.current_section_idx == 0):
+    with cols[0]: # Previous Button
+        if st.button("◀️ Prev", key="prev_mobile", use_container_width=True, help="Go to previous section",
+                      disabled=st.session_state.current_section_idx == 0):
             change_section(-1)
             st.rerun()
-    with cols[1]:
-        if st.button("🏠", key="home_mobile", use_container_width=True):
-            reset_assessment() # This will rerun
-    with cols[2]:
-        # Original page number display moved slightly to accommodate potential warning
-        # If not using warning_placeholder_nav, this can be simpler.
-        # For now, let's keep the original and see how warnings look above.
-        # Let's actually put the page number back here and let st.warning appear above the nav.
-        st.markdown(f"<div style='text-align:center; padding-top:10px;'>{st.session_state.current_section_idx+1}/{TOTAL_SECTIONS}</div>", unsafe_allow_html=True)
 
-    with cols[4]:
+    with cols[1]: # Home Button
+        if st.button("🏠 Home", key="home_mobile", use_container_width=True, help="Start Over / Go to Introduction"):
+            reset_assessment()
+
+    with cols[2]: # Page Counter
+        st.markdown(f"<div class='page-counter' style='text-align:center; padding-top:10px;'>{st.session_state.current_section_idx + 1}/{TOTAL_SECTIONS}</div>", unsafe_allow_html=True)
+
+    with cols[3]: # Next / Submit Button
         is_last_section = st.session_state.current_section_idx == TOTAL_SECTIONS - 1
         if not is_last_section:
-            if st.button("▶️", key="next_mobile", use_container_width=True):
-                if all_current_questions_answered(): # CHECK ADDED
+            button_text = "Next Section ❯"
+            button_key = "next_mobile"
+            button_help = "Continue to the next section"
+            if st.button(button_text, key=button_key, use_container_width=True, help=button_help):
+                if all_current_questions_answered():
                     change_section(1)
                     st.rerun()
                 else:
                     st.warning("⚠️ Please answer all questions in this section before proceeding.")
-        else: # Submit button on the last page in mobile view
-            if st.button("📊", key="submit_mobile", use_container_width=True, help="Calculate Results"):
-                if all_current_questions_answered(): # CHECK ADDED
-                    calculate_and_show_results() # This handles its own rerun or error display
+        else:
+            button_text = "View Results 📊"
+            button_key = "submit_mobile"
+            button_help = "Calculate and view assessment results"
+            if st.button(button_text, key=button_key, use_container_width=True, help=button_help):
+                if all_current_questions_answered():
+                    calculate_and_show_results()
                 else:
                     st.warning("⚠️ Please answer all questions in this section before submitting.")
     
@@ -991,6 +1023,24 @@ def main():
     else:
         render_progress()
         render_questions()
+        
+        # --- SCROLL TO TOP LOGIC ---
+        if st.session_state.get('just_changed_section', False):
+            js_scroll_to_top = """
+                <script>
+                    // Ensure this runs after the DOM is ready for the new page content
+                    // A small timeout can help ensure elements are settled after Streamlit's render
+                    setTimeout(function() {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    }, 50); // Reduced delay slightly, can be adjusted
+                </script>
+                """
+            st.components.v1.html(js_scroll_to_top, height=0)
+            st.session_state.just_changed_section = False  # Reset the flag
+        # --- END SCROLL TO TOP LOGIC ---
         
         # Placeholder for warning message specific to desktop submit
         desktop_submit_warning_placeholder = st.empty() 
