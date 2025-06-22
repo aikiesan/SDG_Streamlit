@@ -765,6 +765,97 @@ st.markdown(f"""
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
         }}
     }}
+
+    /* Mobile Next Button Container - ENHANCED VISIBILITY */
+    .mobile-next-button-container {{
+        position: relative;
+        z-index: 50;
+        margin: 2rem 0;
+        padding: 0.5rem 0;
+    }}
+    
+    /* Specific targeting for mobile next/submit buttons */
+    .mobile-next-button-container .stButton > button {{
+        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+        padding: 1rem 1.5rem !important;
+        border: none !important;
+        border-radius: var(--radius) !important;
+        box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+        min-height: 56px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.3s ease !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }}
+    
+    .mobile-next-button-container .stButton > button:hover {{
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
+        background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%) !important;
+    }}
+    
+    .mobile-next-button-container .stButton > button * {{
+        color: white !important;
+        font-weight: inherit !important;
+        text-shadow: inherit !important;
+    }}
+    
+    /* Mobile-specific enhancements for next button container */
+    @media (max-width: 768px) {{
+        .mobile-next-button-container {{
+            margin: 2.5rem 0 !important;
+            padding: 1rem 0 !important;
+        }}
+        
+        .mobile-next-button-container .stButton > button {{
+            font-size: 1.2rem !important;
+            padding: 1.25rem 1.5rem !important;
+            min-height: 64px !important;
+            box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            z-index: 100 !important;
+        }}
+        
+        /* Ensure the button is always visible above other content */
+        .mobile-next-button-container .stButton {{
+            position: relative !important;
+            z-index: 100 !important;
+        }}
+    }}
+    
+    /* Extra small mobile devices */
+    @media (max-width: 480px) {{
+        .mobile-next-button-container .stButton > button {{
+            font-size: 1.1rem !important;
+            padding: 1rem 1.25rem !important;
+            min-height: 60px !important;
+        }}
+    }}
+    
+    /* Force visibility for any button with Next Section or View Results text */
+    .stButton > button:has(span:contains("Next Section")),
+    .stButton > button:has(span:contains("View Results")) {{
+        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
+        z-index: 50 !important;
+    }}
+    
+    .stButton > button:has(span:contains("Next Section")) *,
+    .stButton > button:has(span:contains("View Results")) * {{
+        color: white !important;
+        font-weight: inherit !important;
+        text-shadow: inherit !important;
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -1177,11 +1268,90 @@ def mobile_next_button():
     """Separate function for the Next/Submit button that appears after questions"""
     is_last_section = st.session_state.current_section_idx == TOTAL_SECTIONS - 1
     
-    # Add custom CSS for the mobile next button
+    # Add custom CSS for the mobile next button with more specific targeting
     st.markdown("""
         <style>
+        /* Enhanced mobile next button styling with better specificity */
         .stButton > button[data-testid*="next_mobile_separate"],
-        .stButton > button[data-testid*="submit_mobile_separate"] {
+        .stButton > button[data-testid*="submit_mobile_separate"],
+        .stButton > button:has(span:contains("Next Section")),
+        .stButton > button:has(span:contains("View Results")) {
+            background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            padding: 1rem 1.5rem !important;
+            border: none !important;
+            border-radius: var(--radius) !important;
+            box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+            min-height: 56px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 1.5rem 0 !important;
+            transition: all 0.3s ease !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+        
+        .stButton > button[data-testid*="next_mobile_separate"]:hover,
+        .stButton > button[data-testid*="submit_mobile_separate"]:hover,
+        .stButton > button:has(span:contains("Next Section")):hover,
+        .stButton > button:has(span:contains("View Results")):hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
+            background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%) !important;
+        }
+        
+        /* Force all text elements inside the button to be white */
+        .stButton > button[data-testid*="next_mobile_separate"] *,
+        .stButton > button[data-testid*="submit_mobile_separate"] *,
+        .stButton > button:has(span:contains("Next Section")) *,
+        .stButton > button:has(span:contains("View Results")) * {
+            color: white !important;
+            font-weight: inherit !important;
+            text-shadow: inherit !important;
+        }
+        
+        /* Mobile-specific enhancements */
+        @media (max-width: 768px) {
+            .stButton > button[data-testid*="next_mobile_separate"],
+            .stButton > button[data-testid*="submit_mobile_separate"],
+            .stButton > button:has(span:contains("Next Section")),
+            .stButton > button:has(span:contains("View Results")) {
+                font-size: 1.2rem !important;
+                padding: 1.25rem 1.5rem !important;
+                min-height: 64px !important;
+                margin: 2rem 0 !important;
+                box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
+                border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            }
+            
+            /* Ensure button is above other elements */
+            .stButton > button[data-testid*="next_mobile_separate"],
+            .stButton > button[data-testid*="submit_mobile_separate"],
+            .stButton > button:has(span:contains("Next Section")),
+            .stButton > button:has(span:contains("View Results")) {
+                position: relative !important;
+                z-index: 100 !important;
+            }
+        }
+        
+        /* Extra small mobile devices */
+        @media (max-width: 480px) {
+            .stButton > button[data-testid*="next_mobile_separate"],
+            .stButton > button[data-testid*="submit_mobile_separate"],
+            .stButton > button:has(span:contains("Next Section")),
+            .stButton > button:has(span:contains("View Results")) {
+                font-size: 1.1rem !important;
+                padding: 1rem 1.25rem !important;
+                min-height: 60px !important;
+            }
+        }
+        
+        /* Fallback for browsers that don't support :has() */
+        .mobile-next-button-fallback {
             background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
             color: white !important;
             font-weight: 700 !important;
@@ -1198,22 +1368,6 @@ def mobile_next_button():
             margin: 1.5rem 0 !important;
             transition: all 0.3s ease !important;
         }
-        
-        .stButton > button[data-testid*="next_mobile_separate"]:hover,
-        .stButton > button[data-testid*="submit_mobile_separate"]:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
-            background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%) !important;
-        }
-        
-        .stButton > button[data-testid*="next_mobile_separate"] span,
-        .stButton > button[data-testid*="submit_mobile_separate"] span,
-        .stButton > button[data-testid*="next_mobile_separate"] div,
-        .stButton > button[data-testid*="submit_mobile_separate"] div {
-            color: white !important;
-            font-weight: inherit !important;
-            text-shadow: inherit !important;
-        }
         </style>
     """, unsafe_allow_html=True)
     
@@ -1221,21 +1375,29 @@ def mobile_next_button():
         button_text = "Next Section ❯"
         button_key = "next_mobile_separate"
         button_help = "Continue to the next section"
+        
+        # Add a container div with custom class for better CSS targeting
+        st.markdown('<div class="mobile-next-button-container">', unsafe_allow_html=True)
         if st.button(button_text, key=button_key, use_container_width=True, help=button_help):
             if all_current_questions_answered():
                 change_section(1)
                 st.rerun()
             else:
                 st.warning("⚠️ Please answer all questions in this section before proceeding.")
+        st.markdown('</div>', unsafe_allow_html=True)
     else:
         button_text = "View Results 📊"
         button_key = "submit_mobile_separate"
         button_help = "Calculate and view assessment results"
+        
+        # Add a container div with custom class for better CSS targeting
+        st.markdown('<div class="mobile-next-button-container">', unsafe_allow_html=True)
         if st.button(button_text, key=button_key, use_container_width=True, help=button_help):
             if all_current_questions_answered():
                 calculate_and_show_results()
             else:
                 st.warning("⚠️ Please answer all questions in this section before submitting.")
+        st.markdown('</div>', unsafe_allow_html=True)
 
 def main():
     render_header()
