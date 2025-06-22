@@ -44,9 +44,6 @@ venv.bak/
 ehthumbs.db
 Thumbs.db
 
-# Streamlit
-.streamlit/
-
 # Jupyter Notebook
 .ipynb_checkpoints
 

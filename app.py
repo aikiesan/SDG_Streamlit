@@ -717,6 +717,55 @@ st.markdown("""
             background: transparent !important;
         }
     }
+
+    /* ADDITIONAL FORCE LIGHT THEME OVERRIDES */
+    /* Extra certainty for critical elements */
+    .stApp {
+        background-color: white !important;
+        color: black !important;
+    }
+    
+    .stMarkdown, .stText, p, span, div {
+        color: black !important;
+    }
+    
+    /* Ensure form elements are visible */
+    .stTextInput > div > div > input {
+        background-color: white !important;
+        color: black !important;
+    }
+    
+    .stSelectbox > div > div > div {
+        background-color: white !important;
+        color: black !important;
+    }
+    
+    .stRadio > div {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    /* Additional input field overrides */
+    .stTextArea > div > div > textarea {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    .stNumberInput > div > div > input {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    /* Force all Streamlit widgets to light theme */
+    .stWidget > div {
+        background-color: white !important;
+        color: black !important;
+    }
+
+    /* Ensure all text elements are black */
+    .stMarkdown *, .stText *, p *, span *, div * {
+        color: black !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 

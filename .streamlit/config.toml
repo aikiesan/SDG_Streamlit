@@ -1,0 +1,23 @@
+[theme]
+# Light theme configuration to force consistent styling
+primaryColor = "#E63946"  # UIA Red
+backgroundColor = "#FFFFFF"  # Pure white background
+secondaryBackgroundColor = "#F8FAFC"  # Light grey for secondary elements
+textColor = "#000000"  # Pure black text for maximum visibility
+
+# Additional theme settings for consistency
+base = "light"  # Force light base theme
+
+# Custom CSS to ensure our overrides take precedence
+[client]
+# Enable custom CSS
+showErrorDetails = true
+
+[server]
+# Server configuration
+enableCORS = false
+enableXsrfProtection = false
+
+[browser]
+# Browser configuration
+gatherUsageStats = false 
