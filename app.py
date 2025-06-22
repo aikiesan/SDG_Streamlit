@@ -52,861 +52,448 @@ st.set_page_config(
     }
 )
 
-# ENHANCED CSS WITH MOBILE-FIRST APPROACH
-st.markdown(f"""
+# MOBILE-ACCESSIBLE STREAMLIT CSS - BLACK TEXT FIX
+# Updated CSS with maximum text visibility and accessibility
+st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
     
-    :root {{
-        --uia-red: {UIA_RED};
-        --uia-blue: {UIA_BLUE};
-        --uia-light-blue: {UIA_LIGHT_BLUE};
-        --uia-accent: {UIA_ACCENT};
+    :root {
+        --uia-red: #E63946;
+        --uia-blue: #1D3557;
+        --uia-light-blue: #457B9D;
+        --uia-accent: #F1FAEE;
         --background: #F8FAFC;
         --surface: #ffffff;
         --surface-hover: #f1f5f9;
         --border: #e2e8f0;
-        --text-primary: #1e293b;
-        --text-secondary: #64748b;
-        --text-muted: #94a3b8;
+        --text-primary: #000000; /* Changed to pure black */
+        --text-secondary: #000000; /* Changed to pure black */
+        --text-muted: #374151; /* Darker for better visibility */
         --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         --radius: 12px;
         --radius-lg: 16px;
         --radius-xl: 20px;
-    }}
+    }
 
     /* Hide Streamlit elements */
-    #MainMenu, footer, header, .stDeployButton {{ visibility: hidden !important; }}
+    #MainMenu, footer, header, .stDeployButton { visibility: hidden !important; }
     
-    /* Base App Styling */
-    .stApp {{ 
-        background: linear-gradient(135deg, var(--background) 0%, #e0f2fe 100%); 
+    /* CRITICAL: FORCE ALL TEXT TO BLACK FOR MAXIMUM VISIBILITY */
+    /* This is the main fix for your mobile text visibility issues */
+    * {
+        color: #000000 !important; /* Force ALL text to black */
+    }
+    
+    /* Base App Styling with light background */
+    .stApp { 
+        background: #ffffff !important; /* Pure white background */
         font-family: 'Inter', sans-serif;
-        color: #000000 !important; /* Force all text to black for maximum readability */
-    }}
+        color: #000000 !important;
+    }
     
-    .block-container {{ 
+    .block-container { 
         padding: 1rem 1rem 6rem 1rem; 
         max-width: 1200px; 
-    }}
+        background: #ffffff !important; /* Ensure white background */
+    }
     
     /* Mobile-first responsive design */
-    @media (min-width: 768px) {{
-        .block-container {{ 
+    @media (min-width: 768px) {
+        .block-container { 
             padding: 1rem 2rem 5rem 2rem; 
-        }}
-    }}
+        }
+    }
 
-    /* Section Titles - ROBUST STYLING WITH WRAPPER CLASS */
-    /* Using .section-title-wrapper for more reliable targeting than complex div selectors */
-    .section-title-wrapper h2 {{
-        color: #000000 !important; /* Force black text */
+    /* ALL HEADINGS - FORCE BLACK TEXT */
+    h1, h2, h3, h4, h5, h6,
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
+        color: #000000 !important;
         font-weight: 700 !important;
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-    }}
+        margin-bottom: 1rem !important;
+    }
     
-    /* Fallback selector for section titles (if wrapper approach changes) */
-    .block-container > div > div > div > div > h2 {{
-        color: #000000 !important; /* Force black text */
-        font-weight: 700 !important;
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-    }}
-    
-    @media (max-width: 768px) {{
-        .section-title-wrapper h2,
-        .block-container > div > div > div > div > h2 {{
-            font-size: 1.3rem !important;
-            margin-bottom: 1rem !important;
-        }}
-    }}
+    /* ALL PARAGRAPHS AND TEXT - FORCE BLACK TEXT */
+    p, span, div, label, text,
+    .stMarkdown p, .stMarkdown span, .stMarkdown div {
+        color: #000000 !important;
+        line-height: 1.6 !important;
+    }
 
-    /* Enhanced Button Styling - REFINED WITH BETTER SPECIFICITY */
-    .stButton > button {{ 
+    /* Enhanced Button Styling - SIMPLIFIED FOR VISIBILITY */
+    .stButton > button { 
         border-radius: var(--radius); 
-        font-weight: 600;
-        border: none;
-        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%);
-        color: white;
+        font-weight: 700 !important;
+        border: 2px solid #000000 !important; /* Black border */
+        background: #ffffff !important; /* White background */
+        color: #000000 !important; /* Black text */
         box-shadow: var(--shadow);
         transition: all 0.2s ease;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         font-size: 1rem;
         padding: 0.75rem 1.5rem;
         min-height: 48px;
         display: flex;
         align-items: center;
         justify-content: center;
-    }}
+    }
     
-    .stButton > button:hover {{
+    .stButton > button:hover {
         transform: translateY(-2px);
         box-shadow: var(--shadow-lg);
-        background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%);
-    }}
+        background: #f8fafc !important; /* Light grey on hover */
+        border-color: #374151 !important;
+    }
+
+    /* Force button text to be black */
+    .stButton > button *,
+    .stButton > button span,
+    .stButton > button div {
+        color: #000000 !important;
+        font-weight: inherit !important;
+    }
 
     /* Mobile-specific button enhancements */
-    @media (max-width: 768px) {{
-        .stButton > button {{
-            font-size: 1.1rem;
-            padding: 1rem 1.5rem;
-            min-height: 56px;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-            box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3);
-        }}
-        
-        .stButton > button:hover {{
-            box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4);
-        }}
-    }}
+    @media (max-width: 768px) {
+        .stButton > button {
+            font-size: 1.1rem !important;
+            padding: 1rem 1.5rem !important;
+            min-height: 56px !important;
+            font-weight: 700 !important;
+            border: 3px solid #000000 !important; /* Thicker border for mobile */
+        }
+    }
 
-    /* Target specific button text elements instead of all children */
-    .stButton > button span {{
-        color: white;
-        font-weight: inherit;
-        text-shadow: inherit;
-    }}
-
-    /* Enhanced intro page styling */
-    .intro-container {{
-        background: var(--surface) !important;
+    /* Enhanced intro page styling - LIGHT BACKGROUND */
+    .intro-container {
+        background: #ffffff !important;
         border-radius: var(--radius-lg) !important;
         padding: 2rem !important;
         margin-bottom: 2rem !important;
         box-shadow: var(--shadow-lg) !important;
-        border: 1px solid var(--border) !important;
-    }}
+        border: 2px solid #e5e7eb !important; /* Light border */
+    }
 
-    .intro-container h2 {{
-        color: #000000 !important; /* Force black text */
+    .intro-container h2 {
+        color: #000000 !important;
         font-weight: 700 !important;
         margin-bottom: 1.5rem !important;
         font-size: 1.5rem !important;
-    }}
+    }
 
-    .intro-container p {{
-        color: #000000 !important; /* Force black text */
+    .intro-container p {
+        color: #000000 !important;
         line-height: 1.6 !important;
         margin-bottom: 1rem !important;
         font-size: 1rem !important;
-    }}
+    }
 
-    /* Mobile intro page optimization */
-    @media (max-width: 768px) {{
-        .intro-container {{
-            padding: 1.5rem !important;
-            margin-bottom: 1.5rem !important;
-        }}
-        
-        .intro-container h2 {{
-            font-size: 1.3rem !important;
-            margin-bottom: 1rem !important;
-        }}
-        
-        .intro-container p {{
-            font-size: 0.95rem !important;
-            line-height: 1.5 !important;
-        }}
-    }}
-
-    /* UNIFIED STYLES FOR RADIO AND CHECKBOX OPTIONS */
-    /* Enhanced text visibility: Base color on labels + specific span targeting */
-    .stCheckbox {{
-        width: 100% !important;
-        margin-bottom: 0.75rem !important;
-        display: block !important;
-    }}
-
-    .stCheckbox > div {{
-        width: 100% !important;
-        display: block !important;
-    }}
-
-    .stCheckbox > div > div {{
-        width: 100% !important;
-        display: block !important;
-    }}
-
-    .stCheckbox > div > div > label {{
+    /* RADIO AND CHECKBOX OPTIONS - LIGHT BACKGROUNDS */
+    .stCheckbox > div > div > label {
         width: 100% !important;
         display: flex !important;
-        flex-direction: row;
         align-items: flex-start !important;
         padding: 1rem !important;
-        background: #ffffff !important; /* Light background */
-        border: 2px solid var(--border) !important;
+        background: #ffffff !important; /* Pure white background */
+        border: 2px solid #d1d5db !important; /* Light grey border */
         border-radius: var(--radius) !important;
-        border-left: 4px solid var(--uia-blue) !important;
         transition: all 0.2s ease-in-out;
         box-sizing: border-box !important;
-        margin: 0 !important;
+        margin-bottom: 0.75rem !important;
         font-size: 0.9rem !important;
-        color: #000000 !important; /* Force black text */
-    }}
+        color: #000000 !important;
+    }
 
-    /* Radio button styling */
-    .stRadio > div > label {{
+    .stRadio > div > label {
         display: flex !important;
-        flex-direction: row;
         align-items: flex-start !important;
         padding: 1rem !important;
-        background: #ffffff !important; /* Light background */
-        border: 2px solid var(--border) !important;
+        background: #ffffff !important; /* Pure white background */
+        border: 2px solid #d1d5db !important; /* Light grey border */
         border-radius: var(--radius) !important;
-        border-left: 4px solid var(--uia-blue) !important;
         margin-bottom: 0.75rem !important;
         transition: all 0.2s ease-in-out;
         width: 100% !important; 
         box-sizing: border-box !important;
         font-size: 0.9rem !important;
-        color: #000000 !important; /* Force black text */
-    }}
+        color: #000000 !important;
+    }
 
-    /* CRITICAL: Ensure text WITHIN radio/checkbox options is clearly visible */
-    /* Targets the actual text spans within Streamlit's radio/checkbox structure */
-    .stRadio > div > label span[data-baseweb="typo-labelmedium"],
-    .stCheckbox > div > div > label span[data-baseweb="checkbox"] > div:last-child {{
-        color: #000000 !important; /* Force black text */
-        font-weight: 500 !important; /* Slightly bolder for readability */
-        line-height: 1.4 !important; /* Ensure proper line spacing */
-    }}
+    /* Force text in radio/checkbox options to be black */
+    .stRadio > div > label *,
+    .stCheckbox > div > div > label * {
+        color: #000000 !important;
+        font-weight: 500 !important;
+    }
 
-    /* Mobile optimization for options */
-    @media (max-width: 768px) {{
-        .stCheckbox > div > div > label,
-        .stRadio > div > label {{
-            padding: 0.875rem !important;
-            font-size: 0.85rem !important;
-            line-height: 1.4 !important;
-        }}
-    }}
-
-    /* Hover effects */
-    .stRadio>div>label:hover, .stCheckbox>div>div>label:hover {{
-        background: var(--surface-hover) !important;
-        border-color: var(--uia-red);
+    /* Hover effects - light backgrounds */
+    .stRadio > div > label:hover, 
+    .stCheckbox > div > div > label:hover {
+        background: #f9fafb !important; /* Very light grey */
+        border-color: #6b7280 !important;
         box-shadow: var(--shadow);
-        transform: translateY(-1px);
-    }}
+    }
 
-    /* Selected states */
-    .stRadio>div>label[data-baseweb="radio"]:has(input:checked),
-    .stCheckbox>div>div>label[data-baseweb="checkbox"]:has(input:checked) {{
-        background: rgba(227, 30, 36, 0.05) !important;
-        border-color: var(--uia-red) !important;
-        border-left-color: var(--uia-red) !important;
+    /* Selected states - light backgrounds */
+    .stRadio > div > label:has(input:checked),
+    .stCheckbox > div > div > label:has(input:checked) {
+        background: #f0f9ff !important; /* Very light blue */
+        border-color: #3b82f6 !important;
         box-shadow: var(--shadow) !important;
-    }}
+    }
 
-    /* Enhanced Header */
-    .uia-header {{ 
-        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%); 
-        color: white; 
+    /* Enhanced Header - SIMPLIFIED FOR VISIBILITY */
+    .uia-header { 
+        background: #ffffff !important; /* White background */
+        color: #000000 !important; /* Black text */
         padding: 2rem 1.5rem; 
         border-radius: var(--radius-lg); 
         margin-bottom: 2rem; 
         text-align: center; 
         box-shadow: var(--shadow-xl);
-        position: relative;
-        overflow: hidden;
-    }}
+        border: 3px solid #e5e7eb !important; /* Light border */
+    }
     
-    .uia-header::before {{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-        pointer-events: none;
-    }}
-    
-    .uia-header h1 {{ 
-        color: white !important; 
+    .uia-header h1 { 
+        color: #000000 !important; /* Black text */
         font-size: 2rem; 
         font-weight: 900; 
         margin: 0 !important;
-        position: relative;
-        z-index: 1;
-    }}
+    }
     
-    .uia-header p {{
-        position: relative;
-        z-index: 1;
+    .uia-header p {
+        color: #000000 !important; /* Black text */
         margin: 0.5rem 0 0 0 !important;
-    }}
+    }
 
     /* Mobile header optimization */
-    @media (max-width: 768px) {{
-        .uia-header {{
+    @media (max-width: 768px) {
+        .uia-header {
             padding: 1.5rem 1rem;
             margin-bottom: 1.5rem;
-        }}
-        .uia-header h1 {{
+        }
+        .uia-header h1 {
             font-size: 1.5rem !important;
-        }}
-    }}
+        }
+    }
 
-    /* Enhanced Progress Container */
-    .progress-container {{ 
-        background: var(--surface); 
+    /* Enhanced Progress Container - LIGHT BACKGROUND */
+    .progress-container { 
+        background: #ffffff !important; /* White background */
         padding: 1.5rem; 
         border-radius: var(--radius-lg); 
         box-shadow: var(--shadow); 
         margin-bottom: 2rem;
-        border: 1px solid var(--border);
-    }}
+        border: 2px solid #e5e7eb !important; /* Light border */
+    }
 
-    /* Enhanced Question Cards */
-    .question-card {{
-        background: var(--surface);
+    /* Enhanced Question Cards - LIGHT BACKGROUNDS */
+    .question-card {
+        background: #ffffff !important; /* Pure white background */
         border-radius: var(--radius-lg);
         padding: 1.5rem;
         margin-bottom: 1.5rem;
-        border: 1px solid var(--border);
+        border: 2px solid #e5e7eb !important; /* Light grey border */
         box-shadow: var(--shadow);
         transition: all 0.2s ease-in-out;
-        border-left: 4px solid var(--uia-blue);
-        position: relative;
-        overflow: hidden;
-    }}
+    }
     
-    .question-card::before {{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(227, 30, 36, 0.02) 0%, rgba(29, 53, 87, 0.02) 100%);
-        pointer-events: none;
-    }}
-    
-    .question-card:hover {{
-        border-left-color: var(--uia-red);
+    .question-card:hover {
+        border-color: #9ca3af !important; /* Darker grey on hover */
         box-shadow: var(--shadow-lg);
         transform: translateY(-2px);
-    }}
-    
-    .question-card:empty {{
-        display: none !important;
-        padding: 0;
-        margin: 0;
-    }}
+        background: #f9fafb !important; /* Very light grey on hover */
+    }
 
-    /* Mobile question card optimization */
-    @media (max-width: 768px) {{
-        .question-card {{
-            padding: 1.25rem;
-            margin-bottom: 1.25rem;
-        }}
-    }}
-
-    .question-title {{
-        font-weight: 600;
-        color: #000000 !important; /* Force black text */
+    .question-title {
+        font-weight: 600 !important;
+        color: #000000 !important;
         font-size: 1.1rem;
         margin-bottom: 1.25rem;
-        position: relative;
-        z-index: 1;
         line-height: 1.5;
-    }}
+    }
 
-    /* Mobile question title */
-    @media (max-width: 768px) {{
-        .question-title {{
+    /* Mobile question card optimization */
+    @media (max-width: 768px) {
+        .question-card {
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .question-title {
             font-size: 1rem;
             margin-bottom: 1rem;
             line-height: 1.4;
-            color: #000000 !important; /* Force black text */
-        }}
-    }}
+        }
+    }
 
-    /* Mobile Navigation - ENHANCED FOR BETTER VISIBILITY */
-    .mobile-nav {{
+    /* Mobile Navigation - LIGHT THEME */
+    .mobile-nav {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(135deg, var(--uia-blue) 0%, var(--uia-red) 100%);
+        background: #ffffff !important; /* White background */
         padding: 12px;
         box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
         z-index: 1000;
-        border-top: 3px solid rgba(255,255,255,0.3);
-    }}
+        border-top: 3px solid #e5e7eb !important; /* Light border */
+    }
     
-    .nav-grid {{
+    .nav-grid {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 10px;
         align-items: center;
-    }}
+    }
     
-    .mobile-nav button {{
-        background: rgba(255,255,255,0.95);
-        border: 2px solid rgba(255,255,255,0.3);
+    .mobile-nav button {
+        background: #ffffff !important; /* White background */
+        border: 2px solid #d1d5db !important; /* Light grey border */
         border-radius: 10px;
         padding: 12px 8px;
         font-size: 0.9rem;
         font-weight: 700;
-        color: var(--text-primary);
+        color: #000000 !important; /* Black text */
         transition: all 0.3s ease;
         box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         min-height: 48px;
         display: flex;
         align-items: center;
         justify-content: center;
-    }}
+    }
     
-    .mobile-nav button:hover {{
-        background: rgba(255,255,255,1);
+    .mobile-nav button:hover {
+        background: #f9fafb !important; /* Light grey on hover */
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        border-color: rgba(255,255,255,0.5);
-    }}
+        border-color: #6b7280 !important;
+    }
     
-    .mobile-nav button:disabled {{
-        background: rgba(255,255,255,0.4);
-        color: rgba(0,0,0,0.4);
+    .mobile-nav button:disabled {
+        background: #f3f4f6 !important; /* Light disabled background */
+        color: #9ca3af !important; /* Grey text for disabled */
         cursor: not-allowed;
         transform: none;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-color: rgba(255,255,255,0.2);
-    }}
+        border-color: #e5e7eb !important;
+    }
     
     /* Style the page counter */
-    .mobile-nav .page-counter {{
+    .mobile-nav .page-counter {
         text-align: center;
-        color: rgba(255,255,255,0.95);
+        color: #000000 !important; /* Black text */
         font-weight: 700;
         font-size: 1rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         padding: 8px;
-        background: rgba(255,255,255,0.1);
+        background: #f3f4f6 !important; /* Light grey background */
         border-radius: 8px;
-        border: 1px solid rgba(255,255,255,0.2);
-    }}
+        border: 2px solid #d1d5db !important; /* Light border */
+    }
 
-    /* Mobile Next/Submit Button - SEPARATE FROM BOTTOM NAV */
-    .mobile-next-button {{
-        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
-        color: white !important;
-        font-weight: 700 !important;
-        font-size: 1.1rem !important;
-        padding: 1rem 1.5rem !important;
-        border: none !important;
-        border-radius: var(--radius) !important;
-        box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3) !important;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
-        min-height: 56px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin: 1.5rem 0 !important;
-        transition: all 0.3s ease !important;
-    }}
-    
-    .mobile-next-button:hover {{
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 16px rgba(227, 30, 36, 0.4) !important;
-        background: linear-gradient(135deg, #d32f2f 0%, #1565c0 100%) !important;
-    }}
-
-    /* Force mobile next button text visibility */
-    .mobile-next-button span,
-    .mobile-next-button div,
-    .mobile-next-button p {{
-        color: white !important;
-        font-weight: inherit !important;
-        text-shadow: inherit !important;
-    }}
-
-    /* Additional mobile navigation button fixes */
-    .mobile-nav .stButton > button {{
-        background: rgba(255,255,255,0.95) !important;
-        color: var(--text-primary) !important;
-        font-weight: 700 !important;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
-    }}
-
+    /* Force mobile navigation button text to be black */
+    .mobile-nav .stButton > button,
+    .mobile-nav .stButton > button *,
     .mobile-nav .stButton > button span,
-    .mobile-nav .stButton > button div {{
-        color: var(--text-primary) !important;
-        font-weight: inherit !important;
-        text-shadow: inherit !important;
-    }}
+    .mobile-nav .stButton > button div {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-weight: 700 !important;
+        border: 2px solid #d1d5db !important;
+    }
 
-    /* Ensure mobile navigation is always visible */
-    @media (max-width: 768px) {{
-        .mobile-nav {{
-            display: block !important;
-        }}
-        
-        .mobile-nav button {{
-            color: var(--text-primary) !important;
-            background: rgba(255,255,255,0.95) !important;
-        }}
-        
-        .mobile-nav button span,
-        .mobile-nav button div {{
-            color: var(--text-primary) !important;
-        }}
-        
-        /* Better spacing for mobile */
-        .block-container {{
+    /* Better spacing for mobile */
+    @media (max-width: 768px) {
+        .block-container {
             padding-bottom: 8rem !important;
-        }}
-        
-        /* Ensure proper touch targets */
-        .mobile-nav button {{
-            min-height: 48px !important;
-            padding: 12px 8px !important;
-        }}
-    }}
+        }
+    }
 
-    /* Extra small mobile devices */
-    @media (max-width: 480px) {{
-        .mobile-nav {{
-            padding: 8px !important;
-        }}
-        
-        .mobile-nav button {{
-            font-size: 0.8rem !important;
-            padding: 10px 6px !important;
-        }}
-        
-        .mobile-nav .page-counter {{
-            font-size: 0.9rem !important;
-        }}
-    }}
-
-    /* Tab styling enhancements */
-    .stTabs [data-baseweb="tab-list"] {{
+    /* Tab styling enhancements - LIGHT THEME */
+    .stTabs [data-baseweb="tab-list"] {
         gap: 0.5rem;
-        background: var(--surface);
+        background: #ffffff !important; /* White background */
         padding: 0.5rem;
         border-radius: var(--radius);
         box-shadow: var(--shadow);
         margin-bottom: 1.5rem;
-    }}
+        border: 2px solid #e5e7eb !important; /* Light border */
+    }
     
-    .stTabs [data-baseweb="tab"] {{
+    .stTabs [data-baseweb="tab"] {
         border-radius: var(--radius);
         padding: 0.75rem 1.5rem;
         font-weight: 600;
-        border: none;
-        background: transparent;
-        color: var(--text-secondary);
-    }}
+        border: 2px solid #d1d5db !important; /* Light border */
+        background: #ffffff !important; /* White background */
+        color: #000000 !important; /* Black text */
+    }
     
-    .stTabs [aria-selected="true"] {{
-        background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%) !important;
-        color: white !important;
+    .stTabs [aria-selected="true"] {
+        background: #f3f4f6 !important; /* Light grey for selected */
+        color: #000000 !important; /* Black text */
+        border-color: #6b7280 !important; /* Darker border for selected */
         box-shadow: var(--shadow);
-    }}
+    }
 
-    /* Mobile tab optimization */
-    @media (max-width: 768px) {{
-        .stTabs [data-baseweb="tab"] {{
-            padding: 0.6rem 0.8rem;
-            font-size: 0.85rem;
-        }}
-    }}
-
-    /* Enhanced metrics and info boxes */
-    .stMetric {{
-        background: var(--surface);
+    /* Enhanced metrics and info boxes - LIGHT BACKGROUNDS */
+    .stMetric {
+        background: #ffffff !important; /* White background */
         padding: 1rem;
         border-radius: var(--radius);
-        border: 1px solid var(--border);
+        border: 2px solid #e5e7eb !important; /* Light border */
         box-shadow: var(--shadow);
-    }}
+    }
 
-    /* Chart container enhancements */
-    .chart-container {{
-        background: var(--surface);
+    /* Force metric text to be black */
+    .stMetric *,
+    .stMetric > div > div > label,
+    .stMetric div[data-testid="stMetricValue"],
+    .stMetric div[data-testid="stMetricLabel"] {
+        color: #000000 !important;
+    }
+
+    /* Chart container enhancements - LIGHT BACKGROUND */
+    .chart-container {
+        background: #ffffff !important; /* White background */
         border-radius: var(--radius-lg);
         padding: 1.5rem;
         margin-bottom: 1.5rem;
-        border: 1px solid var(--border);
+        border: 2px solid #e5e7eb !important; /* Light border */
         box-shadow: var(--shadow);
-    }}
-
-    /* Mobile chart container */
-    @media (max-width: 768px) {{
-        .chart-container {{
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }}
-    }}
+    }
 
     /* Enhanced section headers */
-    .section-header {{
-        color: var(--text-primary);
-        font-weight: 700;
+    .section-header {
+        color: #000000 !important;
+        font-weight: 700 !important;
         font-size: 1.5rem;
         margin-bottom: 1.5rem;
         padding-bottom: 0.5rem;
-        border-bottom: 3px solid var(--uia-red);
+        border-bottom: 3px solid #000000 !important; /* Black underline */
         display: inline-block;
-    }}
+    }
 
-    /* Mobile section header */
-    @media (max-width: 768px) {{
-        .section-header {{
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-        }}
-    }}
-
-    /* Loading and success states */
-    .loading-spinner {{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-    }}
-
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {{
-        width: 8px;
-    }}
-    
-    ::-webkit-scrollbar-track {{
-        background: var(--background);
-    }}
-    
-    ::-webkit-scrollbar-thumb {{
-        background: var(--uia-light-blue);
-        border-radius: 4px;
-    }}
-    
-    ::-webkit-scrollbar-thumb:hover {{
-        background: var(--uia-blue);
-    }}
-
-    /* Enhanced info, success, warning, error boxes */
-    .stAlert {{
+    /* Enhanced info, success, warning, error boxes - LIGHT BACKGROUNDS */
+    .stAlert {
         border-radius: var(--radius) !important;
-        border: none !important;
+        border: 2px solid #d1d5db !important; /* Light border */
         box-shadow: var(--shadow) !important;
-    }}
+        background: #ffffff !important; /* White background */
+    }
 
-    /* Enhanced info, success, warning, error boxes (st.Alert) text */
-    /* Force black text for maximum readability */
+    /* Force alert text to be black */
+    .stAlert *,
     .stAlert p,
-    .stAlert div[data-testid="stNotificationContent"],
-    .stAlert ul, .stAlert li {{
-        color: #000000 !important; /* Force black text */
-    }}
+    .stAlert div,
+    .stAlert ul, 
+    .stAlert li {
+        color: #000000 !important;
+    }
 
-    /* Text inside stMetric components */
-    /* Force black text for maximum readability */
-    .stMetric > div > div > label[data-testid="stMetricLabel"] {{
-        color: #000000 !important; /* Force black text */
-    }}
-    
-    .stMetric div[data-testid="stMetricValue"] {{
-        color: #000000 !important; /* Force black text */
-    }}
-
-    /* Print styles for PDF generation */
-    @media print {{
-        .mobile-nav, .stButton {{ display: none !important; }}
-        .block-container {{ padding: 0 !important; }}
-        .question-card, .results-card {{ break-inside: avoid; }}
-    }}
-
-    /* Refined button visibility fixes - MORE SPECIFIC */
-    .stButton > button {{
-        color: white;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    }}
-
-    /* Ensure white text elements stay white on mobile - SIMPLIFIED */
-    @media (max-width: 768px) {{
-        /* Header elements should remain white */
-        .uia-header,
-        .uia-header h1,
-        .uia-header p {{
-            color: white !important;
-        }}
-        
-        /* Results page elements with dark backgrounds should have white text */
-        [style*="background: linear-gradient"][style*="color: white"] {{
-            color: white !important;
-        }}
-        
-        /* Chart elements should maintain their original colors */
-        .js-plotly-plot {{
-            color: inherit !important;
-        }}
-    }}
-
-    /* Force button visibility in dark themes - REFINED */
-    @media (prefers-color-scheme: dark) {{
-        .stButton > button {{
-            background: linear-gradient(135deg, var(--uia-red) 0%, var(--uia-blue) 100%);
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }}
-    }}
-
-    /* Ensure button text is always visible - REFINED */
-    .stButton > button span {{
-        color: white;
-        font-weight: inherit;
-        text-shadow: inherit;
-    }}
-
-    /* High contrast mode support - REFINED */
-    @media (prefers-contrast: high) {{
-        .stButton > button {{
-            border: 3px solid white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-        }}
-    }}
-
-    /* Mobile Next Button Container - ENSURE THESE RULES ARE EFFECTIVE */
-    .mobile-next-button-container {{
-        position: relative;
-        z-index: 50;
-        margin: 2rem 0;
-        padding: 0.5rem 0;
-    }}
-
-    /* Specific targeting for buttons INSIDE mobile-next-button-container */
-    .mobile-next-button-container .stButton > button {{
-        background: #4A5568 !important; /* A medium-dark grey (Tailwind's gray-600) */
-        font-weight: 700 !important;
-        font-size: 1.1rem !important;
-        padding: 1rem 1.5rem !important;
-        border: 1px solid #718096 !important; /* Slightly lighter grey border (gray-500) */
-        border-radius: var(--radius) !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-        text-shadow: none !important; /* No shadow needed with solid background */
-        min-height: 56px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        transition: all 0.3s ease !important;
-    }}
-
-    .mobile-next-button-container .stButton > button:hover {{
-        transform: translateY(-2px) !important;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
-        background: #2D3748 !important; /* Darker grey on hover (gray-700) */
-        border-color: #4A5568 !important;
-    }}
-
-    /* CRITICAL FOR TEXT: Force all text elements INSIDE these buttons to be white */
-    .mobile-next-button-container .stButton > button *,
-    .mobile-next-button-container .stButton > button span,
-    .mobile-next-button-container .stButton > button div p {{
-        color: white !important;
-        font-weight: inherit !important;
-        text-shadow: none !important;
-    }}
-
-    /* Mobile-specific enhancements for buttons in mobile-next-button-container */
-    @media (max-width: 768px) {{
-        .mobile-next-button-container {{
-            margin: 2.5rem 0 !important;
-        }}
-        
-        .mobile-next-button-container .stButton > button {{
-            font-size: 1.2rem !important;
-            padding: 1.25rem 1.5rem !important;
-            min-height: 64px !important;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
-            background: #4A5568 !important; /* Ensure dark grey on mobile */
-        }}
-    }}
-
-    /* Extra small mobile devices for buttons in mobile-next-button-container */
-    @media (max-width: 480px) {{
-        .mobile-next-button-container .stButton > button {{
-            font-size: 1.1rem !important;
-            padding: 1rem 1.25rem !important;
-            min-height: 60px !important;
-        }}
-    }}
-
-    /* Fallback :has() selectors for Next/Submit buttons NOT in .mobile-next-button-container */
-    .stButton > button:has(span:contains("Next Section")),
-    .stButton > button:has(span:contains("View Results")),
-    .stButton > button:has(span:contains("Calculate Final Results")) {{
-        background: #4A5568 !important; /* A medium-dark grey (Tailwind's gray-600) */
-        font-weight: 700 !important;
-        text-shadow: none !important; /* No shadow needed with solid background */
-        border: 1px solid #718096 !important; /* Slightly lighter grey border (gray-500) */
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-    }}
-
-    .stButton > button:has(span:contains("Next Section")) *,
-    .stButton > button:has(span:contains("View Results")) *,
-    .stButton > button:has(span:contains("Calculate Final Results")) * {{
-        color: white !important;
-        font-weight: inherit !important;
-        text-shadow: none !important;
-    }}
-
-    /* Hover states for fallback buttons */
-    .stButton > button:has(span:contains("Next Section")):hover,
-    .stButton > button:has(span:contains("View Results")):hover,
-    .stButton > button:has(span:contains("Calculate Final Results")):hover {{
-        background: #2D3748 !important; /* Darker grey on hover (gray-700) */
-        border-color: #4A5568 !important;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
-    }}
-
-    /* Mobile Navigation Buttons (Prev, Home in bottom bar) */
-    .mobile-nav .stButton > button {{
-        background: #ffffff !important; /* Light background */
-        color: #000000 !important; /* Black text */
-        font-weight: 700 !important;
-        text-shadow: none !important; /* No shadow needed with black text */
-        border: 2px solid #e2e8f0 !important; /* Light border */
-        box-shadow: 0 3px 8px rgba(0,0,0,0.15) !important;
-    }}
-
-    .mobile-nav .stButton > button span,
-    .mobile-nav .stButton > button div {{
-        color: #000000 !important; /* Black text */
-        font-weight: inherit !important;
-        text-shadow: none !important;
-    }}
-
-    /* Ensure mobile nav buttons maintain style on hover */
-    .mobile-nav .stButton > button:hover {{
-        background: #f8fafc !important; /* Slightly darker on hover */
-        transform: translateY(-2px) !important;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
-        border-color: #cbd5e1 !important;
-    }}
-
-    .mobile-nav .stButton > button:hover span,
-    .mobile-nav .stButton > button:hover div {{
-        color: #000000 !important; /* Keep text black on hover */
-    }}
-
-    .mobile-nav .stButton > button:disabled,
-    .mobile-nav .stButton > button:disabled span,
-    .mobile-nav .stButton > button:disabled div {{
-        background: #f1f5f9 !important; /* Light disabled background */
-        color: #64748b !important; /* Muted text for disabled state */
-        border-color: #e2e8f0 !important;
-    }}
-
-    /* COMPREHENSIVE TEXT COLOR OVERRIDE - Force all text to black */
-    /* This ensures maximum readability across all components */
+    /* COMPREHENSIVE OVERRIDE FOR ALL STREAMLIT COMPONENTS */
+    /* This ensures EVERYTHING is black text on white/light backgrounds */
     .stApp *,
     .block-container *,
     .stMarkdown *,
@@ -923,38 +510,113 @@ st.markdown(f"""
     .stSlider *,
     .stProgress *,
     .stSpinner *,
-    .stBalloons *,
-    .stSnow *,
     .stTabs *,
     .stExpander *,
     .stContainer *,
     .stColumns *,
-    .stSidebar * {{
-        color: #000000 !important; /* Force black text everywhere */
-    }}
+    .stSidebar * {
+        color: #000000 !important; /* Force black text EVERYWHERE */
+        background-attachment: scroll !important; /* Prevent background issues */
+    }
+
+    /* Ensure all backgrounds are light */
+    .stApp,
+    .block-container,
+    .stMarkdown,
+    .stContainer,
+    .stColumns {
+        background-color: #ffffff !important; /* Force white backgrounds */
+    }
+
+    /* Input field styling - LIGHT BACKGROUNDS */
+    .stTextInput > div > div > input,
+    .stTextArea > div > div > textarea,
+    .stNumberInput > div > div > input,
+    .stSelectbox > div > div > select {
+        background: #ffffff !important; /* White background */
+        border: 2px solid #d1d5db !important; /* Light border */
+        color: #000000 !important; /* Black text */
+        border-radius: var(--radius) !important;
+    }
+
+    /* Focus states for inputs */
+    .stTextInput > div > div > input:focus,
+    .stTextArea > div > div > textarea:focus,
+    .stNumberInput > div > div > input:focus,
+    .stSelectbox > div > div > select:focus {
+        border-color: #3b82f6 !important; /* Blue border on focus */
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    }
+
+    /* Slider styling */
+    .stSlider > div > div > div > div {
+        background: #ffffff !important; /* White background */
+    }
+
+    /* Expander styling - LIGHT BACKGROUND */
+    .streamlit-expanderHeader {
+        background: #ffffff !important; /* White background */
+        border: 2px solid #e5e7eb !important; /* Light border */
+        color: #000000 !important; /* Black text */
+    }
+
+    .streamlit-expanderContent {
+        background: #ffffff !important; /* White background */
+        border: 2px solid #e5e7eb !important; /* Light border */
+        border-top: none !important;
+    }
+
+    /* Custom scrollbar - LIGHT THEME */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
     
-    /* Exceptions for specific components that need white text */
-    .uia-header *,
-    .uia-header h1,
-    .uia-header p {{
-        color: white !important; /* Keep header text white */
-    }}
+    ::-webkit-scrollbar-track {
+        background: #f3f4f6; /* Light grey */
+    }
     
-    /* Performance badge text color is handled dynamically in Python */
-    /* Mobile next/submit buttons keep their styling */
-    .mobile-next-button-container .stButton > button * {{
-        color: white !important; /* Keep button text white */
-    }}
+    ::-webkit-scrollbar-thumb {
+        background: #9ca3af; /* Medium grey */
+        border-radius: 4px;
+    }
     
-    /* Results page overall score section */
-    [style*="background: linear-gradient"][style*="color: white"] * {{
-        color: white !important; /* Keep results page text white */
-    }}
-    
-    /* Mobile navigation page counter */
-    .mobile-nav .page-counter {{
-        color: rgba(255,255,255,0.95) !important; /* Keep page counter white */
-    }}
+    ::-webkit-scrollbar-thumb:hover {
+        background: #6b7280; /* Darker grey on hover */
+    }
+
+    /* Print styles for PDF generation */
+    @media print {
+        .mobile-nav, .stButton { display: none !important; }
+        .block-container { padding: 0 !important; }
+        .question-card, .results-card { break-inside: avoid; }
+        * { color: #000000 !important; background: #ffffff !important; }
+    }
+
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+        * {
+            color: #000000 !important;
+            background: #ffffff !important;
+        }
+        
+        .stButton > button {
+            border: 3px solid #000000 !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+        }
+    }
+
+    /* Dark mode override - FORCE LIGHT MODE */
+    @media (prefers-color-scheme: dark) {
+        * {
+            color: #000000 !important;
+            background: #ffffff !important;
+        }
+        
+        .stApp {
+            background: #ffffff !important;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
